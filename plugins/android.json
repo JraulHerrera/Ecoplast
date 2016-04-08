@@ -1,0 +1,33 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        },
+        "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+        }
+    },
+    "dependent_plugins": {}
+}

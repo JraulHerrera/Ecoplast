@@ -1,0 +1,88 @@
+<br><br><br><br>
+<ion-header-bar class="header-bars bar-stable bar bar-header bar-balanced encabezado">
+        
+        <div class="titulo">SISTEMA DE RASTREO DE EMBARQUES</div>
+        <div class="salir">Operador de pruebas planta ecoplast</div>
+	    <div class="btnsalir"> <button class="botonsincronizar">
+				Salir
+			</button>
+		</div>
+</ion-header-bar>
+
+	<div class="tabs-striped tabs-top tabs-background-dark tabs-color-light">
+        <div class="tabs">
+            <a class="tab-item active" href="#/movimientos">
+                MOVIMIENTOS
+            </a>
+            <a class="tab-item" href="#/historial">
+                HISTORIAL
+            </a>
+            <a class="tab-item" href="#/sincronizar">
+                SINCRONIZAR
+            </a>
+        </div>
+    </div>   
+
+
+      
+<div class="row ealtura">
+	     
+
+		<div class="embarques">
+			<div class="row">
+				<div class="card etiquetas">
+					  <h4>385.5 kg | Cartón - packa</h4>
+					  <p>002-03-2201</p>
+					</div>
+
+				  	<div class="card etiquetas">
+					    <h4>385.5 kg | Cartón - packa</h4>
+					     <p>002-03-2201</p>
+					</div>
+						
+					<div class="row" ng-controller="HomeCtrl">
+					<br><br><br><br>
+			            <ul class="panel callout radius">
+			                <li ng-repeat="eco in ecoplast">
+			                    <p>Id: {{ ecoplast }}</p>
+			                </li>
+			            </ul>
+					</div>
+
+			</div>
+
+			<div class="footer2">
+					<h5 class="">
+						2 Embarques registrados &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Entrada manual	&nbsp;&nbsp;						
+						<button class="botonscaner" ng-click="leerCodigo()">
+						  Escanear embarque
+						</button>
+					</h5>
+				</div>
+		
+		</div>
+
+
+		<div class="card embarques2">
+			<br>
+			<h4>DETALLE DE TRANSACCION</h4>
+  			<hr>
+  		 	<h4> Salida de material</h4>
+  			<h4>Recepción de material</h4>
+  			<p>Matricula de vehiculo</p>
+  			
+  			<h4>ASD567</h4>
+  			<hr>
+  				<h4>Autorizado por
+				<button class="firma">
+				  Firmar
+				</button></h4>
+
+			<br><br>
+			<hr>
+
+			<button class="transaccion">
+				  REGISTRAR TRANSACCION
+			</button>
+		</div>
+</div>
