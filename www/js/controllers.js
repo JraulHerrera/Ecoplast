@@ -18,9 +18,7 @@ angular.module('starter.controllers', ['ngCordova'])
         });
     }
 })
-
-
-
+//scanner
   .controller('DashCtrl', function($scope, $cordovaBarcodeScanner, $ionicPopup){
         $scope.leerCodigo = function(){
         $cordovaBarcodeScanner.scan().then( function(imgenEscaneada){
@@ -45,7 +43,7 @@ angular.module('starter.controllers', ['ngCordova'])
         alert("Ha ocurrido un error: :p"+ error);
       });
     }
-
+//mensaje de movimientos
 var showingText="Movimiento registrado con éxito";
 
 $scope.info=function(){
@@ -66,6 +64,23 @@ $scope.info=function(){
 
 })
 }
+//
+
+    var canvas = document.getElementById('signatureCanvas');
+    var signaturePad = new SignaturePad(canvas);
+ 
+    $scope.clearCanvas = function() {
+        signaturePad.clear();
+    }
+ 
+    $scope.saveCanvas = function() {
+        var sigImg = signaturePad.toDataURL();
+        
+        //guarda la imagen.
+        $scope.signature = sigImg;
+    }
+
+//otros
   
   })
 

@@ -1,4 +1,4 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Movimientos">
 <ion-content class="padding">
 <div class="row">
   <div class="col col-70">
@@ -51,13 +51,22 @@
 </ion-content>
 
   <ion-footer-bar align-title="left" class=" footer2 ">
-    <div class="buttons">
+    <div class="buttons col col-30">
       <h6 class="titfoo">  2 Embarques registrados</h6>
     </div>
-    <p class="title light">Entrada manual </p>
-    <div class="buttons">
-      <button class="botonscaner" ng-click="leerCodigo()">Escanear embarque</button>
+    <div class="buttons col col-30">
+    <p class="light">Entrada manual </p>
+    </div>
+    <div class="col col-30">
+      <button class="botonscaner" ng-click="leerCodigo()">Escanear Embarque</button>
     </div>
   </ion-footer-bar>
 
 </ion-view>
+
+
+  <canvas id='signatureCanvas' width='300' height='180' style='border: 1px solid black;'></canvas>
+          <div class='button-bar'>
+              <a class='button button-energized' ng-click='clearCanvas()'>Clear</a>
+              <a class='button button-balanced' ng-click='saveCanvas()'>Save</a>
+  </div>

@@ -7,6 +7,10 @@ body{
 .Title{
 	background-color: #444 !important;
 }
+.buttons
+{
+	margin: 2px;
+}
 .tab-nav{
 	background-color: #444 !important;
 	color:white !important;
@@ -122,7 +126,7 @@ background-color: #323232;
 	font-size:9px;
     color: gray;
     border:0px;
-    width:90px;
+    width:auto;
     height:30px;
     border: 1px solid gray;
     border-radius:1px 1px 1px 1px;
@@ -232,7 +236,7 @@ color: white;}
 {
 	height: 100px;
 	max-width: auto;
-	background-color: silver;
+	
 	display: block;
 }
 
@@ -271,6 +275,13 @@ input[type=radio].css-checkbox {
 		.title
 		{
 			font-size: 13px !important;
+		}
+		.titulo{
+			font-size: 10px;
+		}
+		.salir
+		{
+			font-size: 10px;
 		}
 		.light
 		{
