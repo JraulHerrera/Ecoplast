@@ -3,156 +3,92 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
+// 'starter.services' is found in services.js
+// 'starter.controllers' is found in controllers.js
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
-var app = angular.module('app', ['ngRoute','ngResource','ionic','ngCordova'])
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
 
-function routeProvider($routeProvider) {
-    $routeProvider.
-        when('/as', {
-            controller: '',
-            templateUrl: 'templates/ecoplast/login.html'
-        }).
-
-        when('/', {
-            controller: 'HomeCtrl',
-            templateUrl: 'templates/ecoplast/movimientos.html'
-        }).
-
-        when('/movimientos', {
-            controller: 'HomeCtrl',
-            templateUrl: 'templates/ecoplast/movimientos.html'
-        }).
-
-        when('/historial', {
-            controller: '',
-            templateUrl: 'templates/ecoplast/historial.html'
-        }).
-        
-        when('/sincronizar', {
-            controller: '',
-            templateUrl: 'templates/ecoplast/sincronizar.html'
-        }).
-
-        otherwise({
-            redirectTo: '/'
-        });
-}
-app.config(routeProvider);
-
-
-/*.config(function($routeProvider){
-  $routeProvider
-  .when("/sdasd",
-    {
-      templateUrl: "templates/list.html",
-      controller: "HomeCtrl",
     }
-  );
-})*/
-//app.config(['$routeProvider',function($routeProvider)
-/*.config(function(configRoutesProvider,$routeProvider)
-{
-  $routeProvider.when("/",
-  {
-    templateUrl: "templates/list.html",
-    controller: "HomeCtrl"
-  })
-  .when('/edit/:id',{
-    templateUrl: 'templates/list.html',
-    controller: 'EditCtrl'
-  })
-  .when('/create',{
-    templateUrl: 'templates/list.html',
-    controller: 'CreateCtrl'
-  })
-  .otherwise({redirectTo:"/home"});
-})*/
-//}]);
-
-
-app.controller('HomeCtrl',['$scope','ecoplast','$route',function($scope,ecoplast,$route){
- ecoplast.get(function(data)
- {
-  $scope.ecoplast = data.scoplast;
- })
-}])
-
-app.controller('newempresaCtrl',['$scope','ecoplast','$route',function($scope,ecoplast,$route){
- 
-}])
-
-
-app.controller('EditCtrl',['$scope','ecoplast','$routeParams',function($scope,$routeParams){
-  
-}])
-
-app.controller('CreateCtrl',['$scope','ecoplast',function($scope){
-  
-}])
-
-app.factory('ecoplast',function($resource){
-  return $resource("http://localhost:8000/ecoplast/:id",{id:"@_id"},{
-    update:{method:"PUT", params:{id: "@id"}}
-  })
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
 })
 
-app.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+.config(function($stateProvider, $urlRouterProvider) {
 
- // Triggered on a button click, or some other target
- $scope.showPopup = function() {
-   $scope.data = {}
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
+//estado para login
+   .state('login', {
+      url: '/login',
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
+  })
 
-   // An elaborate, custom popup
-   var myPopup = $ionicPopup.show({
-     template: '<input type="password" ng-model="data.wifi">',
-     title: 'Enter Wi-Fi Password',
-     subTitle: 'Please use normal things',
-     scope: $scope,
-     buttons: [
-       { text: 'Cancel' },
-       {
-         text: '<b>Save</b>',
-         type: 'button-positive',
-         onTap: function(e) {
-           if (!$scope.data.wifi) {
-             //don't allow the user to close unless he enters wifi password
-             e.preventDefault();
-           } else {
-             return $scope.data.wifi;
-           }
-         }
-       },
-     ]
-   });
-   myPopup.then(function(res) {
-     console.log('Tapped!', res);
-   });
-   $timeout(function() {
-      myPopup.close(); //close the popup after 3 seconds for some reason
-   }, 3000);
-  };
 
-   // An alert dialog
-   $scope.showAlert = function() {
-     var alertPopup = $ionicPopup.alert({
-       title: '',
-       template: 'Movimiento registrado con éxito'
-     });
-     alertPopup.then(function(res) {
-       console.log('Thank you');
-     });
-   };
+  // setup an abstract state for the tabs directive
+    .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html'
+  })
+
+  // Each tab has its own nav history stack:
+
+  .state('tab.dash', {
+    url: '/movimientos',
+    views: {
+      'movi-vista': {
+        templateUrl: 'templates/movimientos.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
+  .state('tab.chats', {
+      url: '/historial',
+      views: {
+        'histo-vista': {
+          templateUrl: 'templates/historial.html',
+          controller: 'ChatsCtrl'
+        }
+      }
+    })
+    .state('tab.chat-detail', {
+      url: '/chats/:chatId',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/chat-detail.html',
+          controller: 'ChatDetailCtrl'
+        }
+      }
+    })
+
+  .state('tab.account', {
+    url: '/sicronizacion',
+    views: {
+      'sincro-vista': {
+        templateUrl: 'templates/sincronizar.html',
+        controller: 'AccountCtrl'
+      }
+    }
+  });
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/login');
+
 });
 
 
-app.controller('lectorController', function($scope, $cordovaBarcodeScanner){
-    $scope.leerCodigo = function(){
-      $cordovaBarcodeScanner.scan().then( function(imgenEscaneada){
-        alert(imgenEscaneada.text);
-      }, function(error){
-        alert("Ha ocurrido un error: :p"+ error);
-      });
-    }
-
-
-  });

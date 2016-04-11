@@ -1,0 +1,63 @@
+<ion-view view-title="Dashboard">
+<ion-content class="padding">
+<div class="row">
+  <div class="col col-70">
+    <div class="embarques">
+      <div class="card movietiqueta">
+        <h6>385.5 kg | Cartón - packa</h6>
+        <p>002-03-2201</p>
+      </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="card movietiqueta">
+        <h6>385.5 kg | Cartón - packa</h6>
+        <p>002-03-2201</p>
+      </div>
+    </div>
+  </div>
+  <div class="col col-40">
+    <div class="card embarques2">
+      <br>
+      <h6>DETALLE DE TRANSACCION</h6>
+      <hr>
+      <div>
+        <table>
+          <tr>
+            <td>
+              <input type="radio" name="radiog_dark" id="radio4" class="css-checkbox" />
+              <label for="radio4" class="css-label radGroup2"> Salida de material</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" name="radiog_dark" id="radio5" class="css-checkbox" checked="checked"/><label for="radio5" class="css-label radGroup2">Recepción de material</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p>Matricula de vehiculo</p>
+      <h4>ASD567</h4>
+      <hr>
+      <h4>Autorizado por:&nbsp;
+      <button class="firma">Firmar</button>
+      </h4>
+      <div class="cuadrofirma"></div>
+      <hr>
+      <div class="text-right">
+        <button class="transaccion" ng-click="info()">REGISTRAR TRANSACCION</button>
+      </div>
+    </div>
+  </div>
+</div>
+</ion-content>
+
+  <ion-footer-bar align-title="left" class=" footer2 ">
+    <div class="buttons">
+      <h6 class="titfoo">  2 Embarques registrados</h6>
+    </div>
+    <p class="title light">Entrada manual </p>
+    <div class="buttons">
+      <button class="botonscaner" ng-click="leerCodigo()">Escanear embarque</button>
+    </div>
+  </ion-footer-bar>
+
+</ion-view>

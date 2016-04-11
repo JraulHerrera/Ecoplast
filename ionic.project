@@ -1,12 +1,4 @@
 {
-  "name": "ecoplast",
-  "app_id": "",
-  "gulpStartupTasks": [
-    "sass",
-    "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
-  ]
+  "name": "Ecoplas",
+  "app_id": ""
 }

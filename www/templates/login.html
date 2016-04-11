@@ -1,0 +1,43 @@
+<ion-view view-title="Login" name="login-view">
+	<ion-header-bar class="header-bars bar-stable bar bar-header bar-balanced encabezado">
+	   <h5 class="title">SISTEMA DE RASTREO DE EMBARQUES</h5>
+	</ion-header-bar>
+		<div class="card login">
+			<div class="tLogin"><h4 class="tlogin light">Inicio de sesión</h4></div>
+		  	<div class="item item-text-wrap">
+		    	<br>
+				<div class="list">
+					<label class="item item-input item-stacked-label">
+						<span class="input-label">Usuario</span>
+					    <input type="text" placeholder="" ng-model="data.username">
+					</label>
+					<label class="item item-input item-stacked-label">
+					    <span class="input-label">Contraseña</span>
+					    <input type="password" placeholder="" ng-model="data.password">
+					</label>	
+					<div class="col col-120">
+						<div class="text-right">
+					  		<button class="button biniciar" ng-click="login()">CONTINUAR</button> 
+					  	</div>
+					</div>
+				</div> 
+		  	</div>
+		</div>
+</ion-view>
+
+<!-- EJEMPLO DE LOGIN MANTENER
+<ion-view view-title="Login" name="login-view">
+  <ion-content class="padding">
+
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="Username" ng-model="data.username">
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="data.password">
+          </label>
+      </div>
+      <button class="button button-block button-calm" ng-click="login()">Login</button>
+  </ion-content>
+</ion-view>
+-->

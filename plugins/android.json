@@ -8,25 +8,25 @@
     },
     "installed_plugins": {
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         },
         "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         },
         "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "app.ecoplast.ecoplast"
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         }
     },
     "dependent_plugins": {}

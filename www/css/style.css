@@ -1,25 +1,45 @@
+/* Empty. Add your own CSS if you like */
 body{
 	background-color: #eaeaea;
 	height: 100%;
 }
 
+.Title{
+	background-color: #444 !important;
+}
+.tab-nav{
+	background-color: #444 !important;
+	color:white !important;
+	font-size: 20px !important;
+	border-color: #444 !important;
+}
+.tabs-color-cative-light .tabs-item{
+	color:white !important;
+}
+.tabs-striped .tab-item.tab-item-active, .tabs-striped .tab-item.active, .tabs-striped .tab-item.activated{
+	border-color: white !important;
+}
+
+.encabezado{
+	background-color: #009900 !important;
+
+}
 .login{
 	position: absolute;
-	margin-left: 10%;
+	margin-left: 15%;
 	margin-top: 13%;
-	margin-right: 10%;	
 	width: 70%; 
 
 }
 
 .tLogin{
-	background-color: #323232;
-	width: 100%;
-	height: 60px;
-	margin-top: -10px;
-	text-align: left;	
-	padding-left: 50px;
-	padding-top: 6px;
+background-color: #323232;
+    width: 100%;
+    height: 60px;
+    margin-top: 0px;
+    text-align: inherit;
+    padding-left: 30px;
+    padding-top: 8px;
 }
 
 .blogin
@@ -31,43 +51,55 @@ body{
 .biniciar{
 	color:white;
  	background-color: black;
+ 	margin-top: 10px;
+ 	margin-right: 0px;
 }
 
 .ealtura
 {
 	width: 100%;
-	height: 750%;
+	
 	padding: 0px;
 	margin-top: 0px;
 }
 
 .embarques
 {
-	width: 75%;
-	display: inline;
-	margin-left: 0px;
+	width: 100%;
+	height: 100%;
+	display: inline-block;
 }
 
 .embarques2
 {
-	width: 25%;
+	width: 100%;
 	height: 100%;
-	display: inline;
-	margin:0px;
-	padding-left: 2px;
+	padding: 15px;
+	display: inline-block;
 }
 
 .etiquetas
 {
-	width: 100%;
+	width: 230px;
 	display: inline-block;
+	padding: 2px 20px;
+	margin-right: 2%;
+		margin-bottom: 2px;
+	margin-top: 15px;
 }
-
+.movietiqueta{
+	width: 144px;
+	display: inline-block;
+	padding: 2px 20px;
+	margin-right: 2%;
+	margin-bottom: 2px;
+	margin-top: 2px;
+}
 .footer2{
-	position: fixed;
-	bottom: 0;
-	width: 75%;
+
+	width: 60%;
 	background-color: #444;
+	color:white;
 
 }
 
@@ -100,17 +132,18 @@ body{
 
 .transaccion
 {
-	padding: 0;
-	font-size:12px;
     color: white;
+	bottom: 0;
     border:0px;
-    height:40px;
+    height: 45px;
+	font-size:12px;
     background-color:  #009900;
     border: 1px solid gray;
-    border-radius:1px 1px 1px 1px; 
-    position: fixed;
-	bottom: 0;
-	width: 25%;
+    border-radius:0.4em;
+    margin-left: 12px; 
+	padding: 6px;
+    position: relative;
+	width: 80%;
 }
 
 .tembarques
@@ -137,7 +170,45 @@ body{
     background-color:white;
     margin-left: 30px;
     margin-top: 8px;
+    text-decoration: none;
 }
+
+.btnsalir
+{
+	width: 60px;
+	height: 30px;
+	float: right;
+	padding: 3px 15px;
+    color: white;
+    border:none; 
+    border-radius:3px;
+    background-color: black;
+	opacity: 0.7;
+    margin:5px 10px;
+    
+       text-decoration: none;
+
+}
+.btnsalir a{text-decoration:none;
+color: white;} 
+
+.btnlogin
+{
+	float: right;
+	width: 110px;
+	height: 30px;
+	padding: 5px 10px;
+    color: white;
+    border:none; 
+    border-radius:4px 4px 4px 4px;
+    background-color: black;
+	margin:20px 10px;
+    
+       text-decoration: none;
+
+}
+.btnlogin a{text-decoration:none;
+color: white;} 
 
 .pendientes
 {
@@ -157,7 +228,87 @@ body{
 	text-align: right;
 }
 
-.btnsalir
+.cuadrofirma
 {
-	margin-top: -1%;
+	height: 100px;
+	max-width: auto;
+	background-color: silver;
+	display: block;
+}
+
+input[type=radio].css-checkbox {
+							position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
+						}
+
+						input[type=radio].css-checkbox + label.css-label {
+							padding-left:26px;
+							height:21px; 
+							display:inline-block;
+							line-height:21px;
+							background-repeat:no-repeat;
+							background-position: 0 0;
+							font-size:9px;
+							vertical-align:middle;
+							cursor:pointer;
+
+						}
+
+						input[type=radio].css-checkbox:checked + label.css-label {
+							background-position: 0 -21px;
+						}
+						label.css-label {
+				background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_5ab92245cf78caac21ff087cfc374219.png);
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+@media (max-width: 768px) {
+
+		.title
+		{
+			font-size: 13px !important;
+		}
+		.light
+		{
+			font-size: 12px;
+		}
+		
+		.biniciar
+		{
+			font-size: 10px;
+		}
+		.login{
+			margin-top: 20%;
+			margin-left: 4%;
+			width: 90%;
+		}
+		.list:last-child {
+    		margin-top: -44px;
+		}
+		.tLogin
+		{
+			height: 50px;
+		}
+}
+
+@media  (max-height: 509px) {
+    .botton{
+    line-height: 30px;}
+    .login{
+			margin-top: 10%;}
+}
+
+@media (max-width: 245px) and (min-height: 330px) {
+    .botton
+    {
+   		line-height: 30px;
+   	}
+    .login
+    {
+		margin-top: 20%;
+	}
 }
