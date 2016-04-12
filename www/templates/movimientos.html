@@ -3,15 +3,13 @@
 <div class="row">
   <div class="col col-70">
     <div class="embarques">
-      <div class="card movietiqueta">
-        <h6>385.5 kg | Cartón - packa</h6>
-        <p>002-03-2201</p>
-      </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-      <div class="card movietiqueta">
-        <h6>385.5 kg | Cartón - packa</h6>
-        <p>002-03-2201</p>
-      </div>
+     <div ng-repeat="movimiento in movimientos" class="card etiquetas">      
+            <div class="col-md-4">
+            <h6>{{movimiento.Peso}} | {{movimiento.NombreMaterial}}</h6>
+            <p>{{movimiento.Fecha}}</p>
+            </div>
+      </div>   
+    
     </div>
   </div>
   <div class="col col-40">
@@ -38,12 +36,34 @@
       <h4>ASD567</h4>
       <hr>
       <h4>Autorizado por:&nbsp;
-      <button class="firma">Firmar</button>
+      <button class="firma" ng-click='openSignatureModal()'>Firmar</button>
       </h4>
-      <div class="cuadrofirma"></div>
+  <script id= "firma-modal.html"  type= "text/ng-template" > 
+      <ion-modal-view>
+        <ion-header-bar class="encabezado">
+          <h1 class="title encabezado">FIRMAR</h1>
+        </ion-header-bar>
+        <ion-content scroll="false">
+          <div class="card list">
+            
+            <canvas id="signature-canvas" class="padding-horizontal item" style="width: 100%; height:50%;"></canvas>
+          </div>
+          <div class="button-bar padding">
+            <button class="button" ng-click="clear(); signatureModal.hide()">Cancelar</button>
+            <button class="button " ng-click="clear()">Limpiar</button>
+            <button class="button "  ng-click="saveCanvas()">Aceptar</button>
+          
+          </div>
+        </ion-content>
+      </ion-modal-view>
+  </script>
+
+          <div class="cuadrofirma">
+            
+          </div>
       <hr>
       <div class="text-right">
-        <button class="transaccion" ng-click="info()">REGISTRAR TRANSACCION</button>
+        <button class="transaccion" ng-click="registrar()">REGISTRAR TRANSACCION</button>
       </div>
     </div>
   </div>

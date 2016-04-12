@@ -1,4 +1,21 @@
-angular.module('starter.controllers', ['ngCordova'])
+var db =null;
+
+angular.module('starter.controllers', ['ionic','ngCordova'])
+    .run(function($ionicPlatform, $cordovaSQLite) {
+        $ionicPlatform.ready(function() {
+            if(window.cordova && window.cordova.plugins.Keyboard) {
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            }
+            if(window.StatusBar) {
+                StatusBar.styleDefault();
+            }
+            db = $cordovaSQLite.openDB("sincronizar.db");
+            $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarques (id text primary key, usuario_id integer, materiales_id integer,ubicaciones_id integer, peso real, fechalocal text, fecha text, codigoControl text, canelado integer)");
+        })
+    })
+
+
+
 //controlador de login
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
     $scope.data = {};
@@ -19,28 +36,45 @@ angular.module('starter.controllers', ['ngCordova'])
     }
 })
 //scanner
-  .controller('DashCtrl', function($scope, $cordovaBarcodeScanner, $ionicPopup){
+  .controller('DashCtrl', function($scope, $cordovaBarcodeScanner, $ionicPopup,$http ,$ionicModal){
+        $scope.movimientosescaneado={};
+        $scope.movimientos=[];
+        $scope.movimientossincronizar={};
+        $scope.sincronizacion=[];
+        
+
         $scope.leerCodigo = function(){
-        $cordovaBarcodeScanner.scan().then( function(imgenEscaneada){
-       var alert= imgenEscaneada.text;
-          var alert = $ionicPopup.alert({
-  title:'',
-  template:alert,
-  buttons: [
-    {
-      text:"<b>Continuar</b>",
-      type:"button-balanced",
-      onTap: function(e){
-      alert="Night gespche";
+          $cordovaBarcodeScanner.scan().then( function(imgenEscaneada)
+          {
+            var alert= imgenEscaneada.text;
+            var texto=alert;
+            var arregloDeSubCadenas = texto.split('|');
+          if(arregloDeSubCadenas[0]!="Undefined" && arregloDeSubCadenas[0]=="undefined"||arregloDeSubCadenas[0]!="")
+          {
+            var codigoControl='"'+arregloDeSubCadenas[0]+'"';
+            var clvMaterial='"'+arregloDeSubCadenas[1]+'"';
+            var nombreMaterial='"'+arregloDeSubCadenas[2]+'"';
+            var peso='"'+arregloDeSubCadenas[3]+'"';
+            var usuario='"'+arregloDeSubCadenas[4]+'"';
+            var nombreUsuario='"'+arregloDeSubCadenas[5]+'"';
+            var fecha='"'+arregloDeSubCadenas[6]+'"';
+            var idUbicacion='"'+arregloDeSubCadenas[7]+'"';
+            var nombreUbicacion='"'+arregloDeSubCadenas[8]+'"';
+            var registro = ('{"CodigoControl":'+codigoControl+',"ClaveMaterial":'+clvMaterial+',"NombreMaterial":'+nombreMaterial+',"Peso":'+peso+',"Usuario":'+usuario+',"NombreUsuario":'+nombreUsuario+',"Fecha":'+fecha+',"IdUbicacion":'+idUbicacion+',"NombreUbicacion":'+nombreUbicacion+'}');
+            var registro = angular.fromJson(registro);
 
-      return true;   
-    }
-    },
-    ]
-
-})
-      }, function(error){
-        alert("Ha ocurrido un error: :p"+ error);
+            $scope.movimientos.push(registro);
+            $scope.movimientosescaneado={};
+            registro="";
+          }
+            else
+            {
+              $scope.movimientosescaneado={};
+              registro="";
+            }
+              
+          }, function(error){
+              alert("Ha ocurrido un error:"+ error);
       });
     }
 //mensaje de movimientos
@@ -81,20 +115,125 @@ $scope.info=function(){
     }
 
 //otros
+    var canvas = null,
+      ratio = 1.0;
+
+    
+        $scope.signature = null;
+        $scope.signaturePadModel = {};
+
+        $ionicModal.fromTemplateUrl('firma-modal.html', {
+          animation: 'slide-in-up',
+          scope: $scope,
+        }).then(function(modal) {
+          $scope.signatureModal = modal;
+        });
+
+        $scope.$on('$destroy', function () {
+          $scope.signatureModal.remove();
+        });
+
+        $scope.openSignatureModal = function () {
+          $scope.signatureModal.show();
+          canvas = angular.element($scope.signatureModal.modalEl).find('canvas')[0];
+
+          $scope.signaturePad = new SignaturePad(canvas, {
+            backgroundColor: '#FFF',
+            minWidth: 1,
+            maxWidth: 1.5,
+            dotSize: 3,
+            penColor: 'rgb(66, 133, 244)',
+            onEnd: function () {
+              $scope.signature = $scope.signaturePad.toDataURL();
+            }
+          });
+
+          if ($scope.signature) {
+            $scope.signaturePad.fromDataURL($scope.signature);
+          }
+          $scope.resizeCanvas();
+        };
+
+        $scope.resizeCanvas = function () {
+          canvas.width = canvas.offsetWidth * ratio;
+          canvas.height = canvas.offsetHeight * ratio;
+          canvas.getContext('2d').scale(ratio, ratio);          
+        };
+
+        $scope.clear = function () {
+          $scope.signaturePadModel.signatureConfirm = false;
+          $scope.signaturePad.clear();
+          $scope.signature = null;
+        };
+
+        $scope.saveCanva = function () {
+          $scope.signaturePadModel = {};
+          
+          $scope.signatureModal.hide();
+        };
+
+    $scope.saveCanvas = function() {
+        var sigImg = signaturePad.toDataURL();
+          $scope.signature = sigImg;
+           $scope.signatureModal.hide();
+    };
+   //registro
+   $scope.registrar = function(){
+          var ccontrol="";
+          var cmaterial="";
+          var length = $scope.movimientos.length;
+          
+                      for ( i=0; i < length; i++) {
+                        $http.get('http://localhost:8000/RESTService/movimientos/',{
+                          params: {
+                             "codigoControl": $scope.movimientos[i].CodigoControl,
+                             "claveMaterial": $scope.movimientos[i].ClaveMaterial,
+                             "nombreMaterial": $scope.movimientos[i].NombreMaterial,
+                             "peso": $scope.movimientos[i].Peso,
+                             "usuario": $scope.movimientos[i].usuario,
+                             "nombreUsuario": $scope.movimientos[i].nombreUsuario,
+                             "fecha": $scope.movimientos[i].Fecha,
+                             "idUbicacion": $scope.movimientos[i].IdUbicacion,
+                             "nombreUbicacion":$scope.movimientos[i].NombreUbicacion
+                          }
+                        })
+                          .success(function(data){
+                            alert("completado");
+                          })
+
+                          .error(function(data){                          
+                          /* 
+                            console.log($scope.movimientos[i-1].CodigoControl);
+                                alert($scope.movimientos[i-1].CodigoControl);*/
+                               
+                                var codigoControl='"'+$scope.movimientos[i-1].CodigoControl+'"';
+                                var clvMaterial='"'+$scope.movimientos[i-1].ClaveMaterial+'"';
+                                var nombreMaterial='"'+$scope.movimientos[i-1].NombreMaterial+'"';
+                                var peso='"'+$scope.movimientos[i-1]+'"';
+                                var usuario='"'+$scope.movimientos[i-1].usuario+'"';
+                                var nombreUsuario='"'+$scope.movimientos[i-1].nombreUsuario+'"';
+                                var fecha='"'+$scope.movimientos[i-1].Fecha+'"';
+                                var idUbicacion='"'+$scope.movimientos[i-1].IdUbicacion+'"';
+                                var nombreUbicacion='"'+$scope.movimientos[i-1].NombreUbicacion+'"';
+                                var registro = ('{"CodigoControl":'+codigoControl+',"ClaveMaterial":'+clvMaterial+',"NombreMaterial":'+nombreMaterial+',"Peso":'+peso+',"Usuario":'+usuario+',"NombreUsuario":'+nombreUsuario+',"Fecha":'+fecha+',"IdUbicacion":'+idUbicacion+',"NombreUbicacion":'+nombreUbicacion+'}');
+                                var registro = angular.fromJson(registro);
+
+                                $scope.sincronizacion.push(registro);
+                                $scope.movimientossincronizar={};
+                                registro="";
+
+
+                          });
+                      };
+      }
+  
+
   
   })
 
 
 .controller('ChatsCtrl', function($scope, Chats ,$ionicPopup) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-var showingText="Movimiento registrado con éxito";
+  var showingText="Movimiento registrado con éxito";
 
 $scope.info2=function(){
   var alert = $ionicPopup.alert({
@@ -114,20 +253,51 @@ $scope.info2=function(){
 
 })
 }
-  $scope.chats = Chats.all();
+//historial ws
+var historiales="";
+   $http.get("http://localhost:8000/RESTService/historial")
+            .success(function(data){
+                $scope.historiales = data;
+            })
+
+
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
+  
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+//controlador para sincronizacion 
+
+.controller('AccountCtrl', function($scope, $cordovaSQLite) {
+
+    $scope.insert = function(id, usuario_id, materiales_id,ubicaciones_id, peso, fechalocal, fecha, codigoControl, canelado) {
+        var query = "INSERT INTO embarques (id, usuario_id, materiales_id,ubicaciones_id, peso, fechalocal, fecha, codigoControl, canelado) VALUES (?,?,?,?,?,?,?,?,?)";
+        $cordovaSQLite.execute(db, query, [id, usuario_id, materiales_id,ubicaciones_id, peso, fechalocal, fecha, codigoControl, canelado]).then(function(res) {
+            console.log("INSERT ID -> " + res.insertId);
+        }, function (err) {
+            console.error(err);
+        });
+    }
+ 
+    $scope.select = function(lastname) {
+        var query = "SELECT firstname, lastname FROM embarques WHERE lastname = ?";
+        $cordovaSQLite.execute(db, query, [lastname]).then(function(res) {
+            if(res.rows.length > 0) {
+                console.log("SELECTED -> " + res.rows.item(0).firstname + " " + res.rows.item(0).lastname);
+            } else {
+                console.log("No results found");
+            }
+        }, function (err) {
+            console.error(err);
+        });
+    }
+ 
+
 });
 
 
