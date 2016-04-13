@@ -106,10 +106,13 @@ background-color: #323232;
 	color:white;
 
 }
-
+.margin{
+	margin-top: 3px;
+}
 .firma
 {
 	padding: 0;
+	margin-top: 4px;
 	font-size:9px;
     color:white;
     border:0px;
@@ -236,7 +239,7 @@ color: white;}
 
 .cuadrofirma
 {
-	height: 100px;
+	height: 70px;
 	max-width: auto;
 	
 	display: block;

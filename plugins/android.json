@@ -30,6 +30,9 @@
         },
         "cordova-sqlite-storage": {
             "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
+        },
+        "me.rahul.plugins.sqlDB": {
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         }
     },
     "dependent_plugins": {}
