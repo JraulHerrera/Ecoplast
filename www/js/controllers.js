@@ -1,21 +1,5 @@
-var db =null;
-
-angular.module('starter.controllers', ['ionic','ngCordova'])
-    .run(function($ionicPlatform, $cordovaSQLite) {
-        $ionicPlatform.ready(function() {
-            if(window.cordova && window.cordova.plugins.Keyboard) {
-                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-            }
-            if(window.StatusBar) {
-                StatusBar.styleDefault();
-            }
-            db = $cordovaSQLite.openDB("sincronizar.db");
-            $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (id integer primary key, id_embarque integer, fecha text, firma text, entrada integer, usuario_id text, ubicaciones integer, placas text)");
-        })
-    })
-
-
-
+angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
+  
 //controlador de login
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
     $scope.data = {};
@@ -274,11 +258,11 @@ var historiales="";
 //controlador para sincronizacion 
 
 .controller('AccountCtrl', function($scope, $cordovaSQLite) {
-
-    $scope.insert = function(id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) {
+                                 
+        $scope.insert = function(id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) {
+                             
         var query = "INSERT INTO rastreo (id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) VALUES (?,?,?,?,?,?,?,?)";
-         alert(query);
-        $cordovaSQLite.execute(db, query, [id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas]).then(function(res) {
+       $cordovaSQLite.execute(db, query, [id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas]).then(function(res) {
             alert("INSERT ID -> " + res.insertId);
         }, function (err) {
             console.error(err);
@@ -286,10 +270,10 @@ var historiales="";
     }
  
     $scope.select = function(id) {
-        var query = "SELECT  materiales_id FROM rastreo WHERE id = ?";
+        var query = "SELECT  id_embarque, fecha, entrada, usuario_id FROM rastreo WHERE id = ?";
         $cordovaSQLite.execute(db, query, [id]).then(function(res) {
             if(res.rows.length > 0) {
-                alert("SELECTED -> " + res.rows.item(0).id_embarque + " " + res.rows.item(0).usuario_id);
+                alert("SELECTED -> " + res.rows.item(0).id_embarque + " " + res.rows.item(0).fecha);
             } else {
                 alert("No results found");
             }
@@ -300,6 +284,5 @@ var historiales="";
  
 
 });
-
 
 
