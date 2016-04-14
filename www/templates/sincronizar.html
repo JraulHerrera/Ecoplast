@@ -8,7 +8,17 @@
   <button class="botonsincronizar">Sincronizar todo</button></div>
 	
 </div>
- <button ng-click="insert('5','1','raul','texto','1','1','2','2erd')">insertar</button>
- <button ng-click="select('4')">select</button>	
+  <div ng-repeat="otro in sincro" class="card etiquetas">      
+                  <div class="col-md-4">
+                    <h6>{{otro.id}} | {{otro.id_embarque}}</h6>
+                    <p>{{otro.usuario_id}}</p>
+                  </div>
+      </div>
+
+<br>
+<br>
+ <button ng-click="insert('9','1','raul','texto','1','1','2','2erd')">insertar</button>
+ <br><br>
+ <button ng-click="select()">select</button>	
   </ion-content>
 </ion-view>

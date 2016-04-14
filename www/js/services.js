@@ -7,12 +7,11 @@ angular.module('starter.services', [])
 
     return {
         loginUser: function(name, pw) {
-var deferred = $q.defer();
+            var deferred = $q.defer();
             var promise = deferred.promise;
             var nombre="";
             var pass="";
-
-            $http.get("http://localhost:8000/RESTService/login/"+name+"/"+pw)
+           $http.get("http://itsolution.mx/ecoplast/public/RESTService/login/"+name+"/"+pw)
             .success(function(data){
                      var length = data.length;
                       for ( i=0; i < length; i++) {  
@@ -20,8 +19,7 @@ var deferred = $q.defer();
                         pass = data[i].password;
                       };
                    
-            })
-              if (name== 'nombre'  && pw=='pass') {
+              if (name==nombre && pw==pass) {
                   deferred.resolve('Welcome ' + name + '!');
               } 
 
@@ -29,6 +27,7 @@ var deferred = $q.defer();
                   deferred.reject('Usuario incorrecto.');
               }
 
+            })
 
              promise.success = function(fn) {
                 promise.then(fn);

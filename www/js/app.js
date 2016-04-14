@@ -23,16 +23,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    if(window.cordova)
-      {
-        db = $cordovaSQLite.openDB("sincronizar.db");
+    if(window.cordova  && window.SQLitePlugin)
+      { 
+        db = $cordovaSQLite.openDB('sincronizar.db', -1);
+
       }
       else
       {
        db = window.openDatabase("sincronizar.db", "1.0", "sincronizar", -1);
       }
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (id integer primary key, id_embarque integer, fecha text, firma text, entrada integer, usuario_id text, ubicaciones_id integer, placas text)");
-        
+      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (id integer primary key, usuario text, nombre text, contrasena text)");
+      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarque (id integer primary key, usuario_id integer, materiales integer, ubicaciones_id integer, peso integer, fechalocal text, fecha text, codigocontrol text)");
 
   });
 })
@@ -57,6 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
+
   })
 
   // Each tab has its own nav history stack:

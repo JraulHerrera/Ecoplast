@@ -17,6 +17,10 @@ body{
 	font-size: 20px !important;
 	border-color: #444 !important;
 }
+.titledetalle{
+	font-size: 15px;
+
+}
 .tabs-color-cative-light .tabs-item{
 	color:white !important;
 }

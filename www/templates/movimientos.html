@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col col-70">
     <div class="embarques">
-     <div ng-repeat="movimiento in movimientos" class="card etiquetas">      
+     <div ng-repeat="movimiento in movimientos" class="card etiquetas"  ng-click="mostrarInformacion(movimiento)">      
             <div class="col-md-4">
             <h6>{{movimiento.Peso}} | {{movimiento.NombreMaterial}}</h6>
             <p>{{movimiento.Fecha}}</p>
@@ -21,23 +21,23 @@
           <tr>
             <td>
               <input type="radio" name="radiog_dark" id="radio4" class="css-checkbox" />
-              <label for="radio4" class="css-label radGroup2"> Salida de material</label>
+              <label for="radio4" class="css-label radGroup2"> <span class="titledetalle">Salida de material</span></label>
             </td>
           </tr>
           <tr class="margin">
             <td>
-              <input type="radio" name="radiog_dark" id="radio5" class="css-checkbox" checked="checked"/><label for="radio5" class="css-label radGroup2">Recepción de material</label>
+              <input type="radio" name="radiog_dark" id="radio5" class="css-checkbox" checked="checked"/><label for="radio5" class="css-label radGroup2"><span class="titledetalle">Recepción de material</span></label>
             </td>
           </tr>
         </table>
       </div>
         <label class="item item-input item-stacked-label margin">
               <span class="input-label">Matricula de vehiculo</span>
-              <input type="text" placeholder="" ng-model="data.password">
+              <input type="text" placeholder="" ng-model="data.matricula">
         </label>
         <label class="item item-input item-stacked-label">
               <span class="input-label">Autorizado por</span>
-              <input type="text" placeholder="" ng-model="data.password">
+              <input type="text" placeholder="" ng-model="data.autorizado">
         </label>
       
       <button class="firma" ng-click='openSignatureModal()'>Firmar</button>
@@ -63,7 +63,7 @@
   </script>
 
           <div class="cuadrofirma">
-            
+             <img src='{{signature}}'>
           </div>
       <hr>
       <div class="text-right">
