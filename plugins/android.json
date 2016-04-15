@@ -33,6 +33,9 @@
         },
         "me.rahul.plugins.sqlDB": {
             "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.ionicframework.ecoplas920152"
         }
     },
     "dependent_plugins": {}

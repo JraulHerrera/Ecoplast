@@ -7,13 +7,13 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 var db =null;
+var nombredeusuario=null;
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
-.run(function($ionicPlatform, $cordovaSQLite) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+.run(function($ionicPlatform, $cordovaSQLite, $ionicPopup) {
+  $ionicPlatform.ready(function() {     
+            
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -35,8 +35,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (id integer primary key, id_embarque integer, fecha text, firma text, entrada integer, usuario_id text, ubicaciones_id integer, placas text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (id integer primary key, usuario text, nombre text, contrasena text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarque (id integer primary key, usuario_id integer, materiales integer, ubicaciones_id integer, peso integer, fechalocal text, fecha text, codigocontrol text)");
-
-  });
+     });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -65,7 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   // Each tab has its own nav history stack:
 
   .state('tab.dash', {
-    url: '/movimientos',
+    url: '/movimientos:name',
     views: {
       'movi-vista': {
         templateUrl: 'templates/movimientos.html',

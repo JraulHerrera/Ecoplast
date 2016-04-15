@@ -12,34 +12,35 @@
     
     </div>
   </div>
-  <div class="col col-40">
+   <div class="col col-40">
     <div class="card embarques2">
       <h6>DETALLE DE TRANSACCION</h6>
       <hr>
       <div>
         <table>
-          <tr>
+           <tr>
             <td>
-              <input type="radio" name="radiog_dark" id="radio4" class="css-checkbox" />
-              <label for="radio4" class="css-label radGroup2"> <span class="titledetalle">Salida de material</span></label>
+              <input type="radio" name="radiog_dark" id="radio4" ng-model="data.tipo" class="css-checkbox" ng-click="actualizaentrada()" checked />
+              <label for="radio4" class="css-label radGroup2">  <span class="titledetalle">Salida de material</span></label>
             </td>
           </tr>
-          <tr class="margin">
+          <tr>
             <td>
-              <input type="radio" name="radiog_dark" id="radio5" class="css-checkbox" checked="checked"/><label for="radio5" class="css-label radGroup2"><span class="titledetalle">Recepción de material</span></label>
+              <input type="radio" name="radiog_dark" id="radio5" ng-model="data.tipo" value="0" ng-value="0"class="css-checkbox"  ng-model="check.autorizadopor"  ng-click="actualizasalida()"/><label for="radio5" class="css-label radGroup2"> <span class="titledetalle">Recepción de material</span></label>
             </td>
           </tr>
         </table>
+        <br>
       </div>
         <label class="item item-input item-stacked-label margin">
               <span class="input-label">Matricula de vehiculo</span>
-              <input type="text" placeholder="" ng-model="data.matricula">
+              <input type="text" placeholder=""  ng-model="data.matriculaVehiculo">
         </label>
         <label class="item item-input item-stacked-label">
               <span class="input-label">Autorizado por</span>
-              <input type="text" placeholder="" ng-model="data.autorizado">
+              <input type="text" placeholder="" ng-model="data.autorizadopor">
         </label>
-      
+
       <button class="firma" ng-click='openSignatureModal()'>Firmar</button>
       
   <script id= "firma-modal.html"  type= "text/ng-template" > 
@@ -67,7 +68,7 @@
           </div>
       <hr>
       <div class="text-right">
-        <button class="transaccion" ng-click="registrar()">REGISTRAR TRANSACCION</button>
+        <button class="button transaccion" ng-click="registrar()">REGISTRAR TRANSACCION</button>
       </div>
     </div>
   </div>
@@ -76,12 +77,12 @@
 
   <ion-footer-bar align-title="left" class=" footer2 ">
     <div class="buttons col col-30">
-      <h6 class="titfoo">  2 Embarques registrados</h6>
+      <h6 class="titfoo light">  2 Embarques registrados</h6>
     </div>
     <div class="buttons col col-30">
     <p class="light">Entrada manual </p>
     </div>
-    <div class="col col-30">
+    <div class="col col-30 text-right">
       <button class="botonscaner" ng-click="leerCodigo()">Escanear Embarque</button>
     </div>
   </ion-footer-bar>

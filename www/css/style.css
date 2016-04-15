@@ -23,9 +23,17 @@ body{
 }
 .tabs-color-cative-light .tabs-item{
 	color:white !important;
+	
+	border-top-color: white 1px  !important;
+	border-bottom-color: white 1px  !important;
 }
 .tabs-striped .tab-item.tab-item-active, .tabs-striped .tab-item.active, .tabs-striped .tab-item.activated{
 	border-color: white !important;
+	border-top-color: white 1px  !important;
+	border-bottom-color: white 1px  !important;
+}
+.tabs-top.tabs-striped .tab-item.tab-item-active, .tabs-top.tabs-striped .tab-item.active, .tabs-top.tabs-striped .tab-item.activated{
+	border-width: 2px 0px 2px 0px !important;
 }
 
 .encabezado{
@@ -197,7 +205,7 @@ background-color: #323232;
     border-radius:3px;
     background-color: black;
 	opacity: 0.7;
-    margin:5px 10px;
+
     
        text-decoration: none;
 
@@ -248,6 +256,13 @@ color: white;}
 	
 	display: block;
 }
+
+.tab-item{
+	    max-width: 359px !important;
+}
+
+
+
 
 input[type=radio].css-checkbox {
 							position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;

@@ -1,12 +1,10 @@
-<ion-view view-title="Historial">
-  <ion-content class="padding">
-      <div ng-repeat="historial in historiales" class="card etiquetas"  ng-click="mostrarInformacionhistorial(historial)">      
+<ion-view view-title="Chats">
+  <ion-content>
+      <div ng-repeat="historial in historiales" class="card etiquetas" ng-click="mostrarInformacionhistorial(historial)">      
                   <div class="col-md-4">
-                    <h6>{{historial.id}} | {{historial.tipoempresas}}</h6>
-                    <p>{{historial.updated_at}}</p>
+                    <h6>{{historial.peso}} Kg | {{historial.material}}</h6>
+                    <p>{{historial.fecha | date:'yyyy-MM-dd'}}</p>
                   </div>
       </div>        
-    
-
   </ion-content>
 </ion-view>
