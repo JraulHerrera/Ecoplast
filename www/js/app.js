@@ -9,7 +9,7 @@
 var db =null;
 var nombredeusuario=null;
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
+angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform, $cordovaSQLite, $ionicPopup) {
   $ionicPlatform.ready(function() {     
@@ -23,15 +23,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    if(window.cordova  && window.SQLitePlugin)
-      { 
-        db = $cordovaSQLite.openDB('sincronizar.db', -1);
-
-      }
-      else
-      {
-       db = window.openDatabase("sincronizar.db", "1.0", "sincronizar", -1);
-      }
+     
+        db = $cordovaSQLite.openDB({name: "sincronizar.db"});
+      
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (id integer primary key, id_embarque integer, fecha text, firma text, entrada integer, usuario_id text, ubicaciones_id integer, placas text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (id integer primary key, usuario text, nombre text, contrasena text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarque (id integer primary key, usuario_id integer, materiales integer, ubicaciones_id integer, peso integer, fechalocal text, fecha text, codigocontrol text)");
@@ -82,15 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
+
 
   .state('tab.account', {
     url: '/sicronizacion',

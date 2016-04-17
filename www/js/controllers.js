@@ -2,10 +2,13 @@ var entradaSalida="1";
 var signature=null;
 var sigImg=null;
 var registroCompletado=0;
+var bandera= 0;
 
 angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
   
-//controlador de login
+//controlador de logi
+
+
 .controller('LoginCtrl', function($ionicPlatform, $scope, LoginService, $ionicPopup,  $cordovaNetwork, $state, $rootScope) {
     $scope.data = {};
     $scope.login = function() {
@@ -22,10 +25,49 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
                 }]
             });
         });
+        
     }
 })
 //scanner
  .controller('DashCtrl', function($scope,$state, $cordovaBarcodeScanner, $ionicPopup,$http ,$ionicModal){
+        $scope.scren=screen.height;
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $scope.data = {};
         $scope.recepcion="1";
         $scope.matriculaVehiculo="matricula";
@@ -56,6 +98,7 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
         
 
          $scope.leerCodigo = function(){
+         
           $cordovaBarcodeScanner.scan().then( function(imgenEscaneada)
           {
             var alert= imgenEscaneada.text;
@@ -114,7 +157,9 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
             var registro = ('{"CodigoControl":'+codigoControl+',"ClaveMaterial":'+clvMaterial+',"NombreMaterial":'+nombreMaterial+',"Peso":'+peso+',"Usuario":'+usuario+',"NombreUsuario":'+nombreUsuario+',"Fecha":'+fecha+',"IdUbicacion":'+idUbicacion+',"NombreUbicacion":'+nombreUbicacion+'}');
             var registro = angular.fromJson(registro);
 
+            bandera=bandera+1;
             $scope.movimientos.push(registro);
+            $scope.conembarque=bandera;
             $scope.movimientosescaneado={};
             registro="";
           }
@@ -127,31 +172,13 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
           }, function(error){
               alert("Ha ocurrido un error:"+ error);
       });
+          
+
     }
 //mensaje de movimientos
 var showingText="Movimiento registrado con éxito";
 
-$scope.info=function(){
-  var d = new Date();
-        var hora=('Fecha: '+d.getDate()+'Dia de la semana: '+d.getDay()+'Mes: '+d.getMonth()+'Año: '+d.getFullYear()+'Hora: '+d.getHours()+'Hora UTC: '+d.getUTCHours()+'Minutos: '+d.getMinutes()+'Segundos: '+d.getSeconds());
-        $scope.matriculaVehiculo=hora;
-  var alert = $ionicPopup.alert({
-  title:'',
-  template:showingText,
-  buttons: [
-    {
-      text:"<b>Continuar</b>",
-      type:"button-balanced",
-      onTap: function(e){
-      showingText=alert;
 
-      return true;   
-    }
-    },
-    ]
-
-})
-}
 //
 
     var canvas = document.getElementById('signatureCanvas');
@@ -234,7 +261,7 @@ $scope.info=function(){
     var usertemp;
     var completado=0;
     var conexion=1;
-        $http.get("http://54.218.11.27/RESTService/login/"+usr)
+        $http.post("http://itsolution.mx/RESTService/login/"+usr)
         .success(function(data){
 
                      var length = data.length;
@@ -252,7 +279,7 @@ $scope.info=function(){
           var c=0;
                       
                       for ( i=0; i < length; i++){                       
-                          $http.get('http://54.218.11.27/RESTService/movimientos/',{
+                          $http.post('http://itsolution.mx/RESTService/movimientos/',{
                           params: {
                              "codigoControl": $scope.movimientos[i].CodigoControl,
                              "claveMaterial": $scope.movimientos[i].ClaveMaterial,
@@ -266,7 +293,7 @@ $scope.info=function(){
                              "entradaSalida":entradaSalida,
                              "matricula":$scope.data.matriculaVehiculo,
                              "autorizadopor":$scope.data.autorizadopor,
-                             "firma":sigImg,
+                             "firma":'hola',
                              "usuarioactual":$state.params.name
                           }
                         }).success(function(data,status){
@@ -368,7 +395,7 @@ $scope.info=function(){
 
       }
 
-  //movimientos detalle
+  //MOVIMIENTOS DETALLE
     $scope.mostrarInformacion=function(movimiento){
       console.log(movimiento);
        var alert = $ionicPopup.alert({
@@ -415,9 +442,9 @@ $scope.info=function(){
             })
     }
 
-//historial ws
+//HISTORIAL WS
 var historiales="";
-   $http.get("http://54.218.11.27/RESTService/historial")
+   $http.post("http://itsolution.mx/RESTService/historial")
             .success(function(data){
                 $scope.historiales = data;
             })
@@ -429,65 +456,70 @@ var historiales="";
   
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
 
 
 //controlador para sincronizacion 
-
 .controller('AccountCtrl', function($scope, $cordovaSQLite, $http, $ionicLoading) {
-                                 
-       
- 
-        $scope.sincro=[];
+  $scope.sincro=[];
 
-        $scope.insert = function(id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) {
-          firma=sigImg;
-          alert(firma);
-        var query = "INSERT INTO rastreo (id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) VALUES (?,?,?,?,?,?,?,?)";
+  $scope.insert = function(id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) 
+  { 
+    alert(db);
+    firma=sigImg;
+    
+    var query = "INSERT INTO rastreo (id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) VALUES (?,?,?,?,?,?,?,?)";
+    
+    $cordovaSQLite.execute(db, query, [id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas]).then(function(res) 
+    {
+      alert("INSERT ID -> " + res.insertId);
+      console.log("INSERT ID -> " + res.insertId);
+    },function (err) 
+      {
+        alert('rer'+ err);
+      });
+  }
 
-        $cordovaSQLite.execute(db, query, [id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas]).then(function(res) {
-            alert("INSERT ID -> " + res.insertId);
-        }, function (err) {
-            alert('rer'+ err);
-        });
-    }
- 
-    $scope.select = function() {
-        var query = "SELECT  * FROM rastreo";
-        
-        $cordovaSQLite.execute(db, query).then(function(res) {
+    $scope.select = function()
+     {
+      var query = "SELECT  * FROM rastreo";
+      $cordovaSQLite.execute(db, query).then(function(res)
+       {
             if(res.rows.length > 0) {
-                
-                for ( i=0; i < res.rows.length; i++) {
-
-                                var id='"'+res.rows.item(i).id+'"';
-                                var id_embarque='"'+res.rows.item(i).id_embarque+'"';
-                                var fecha='"'+res.rows.item(i).fecha+'"';
-                                var firma='"'+res.rows.item(i).firma+'"';
-                                var entrada='"'+res.rows.item(i).entrada+'"';
-                                var usuario_id='"'+res.rows.item(i).usuario_id+'"';
-                                var ubicaciones_id='"'+res.rows.item(i).ubicaciones_id+'"';
-                                var placas='"'+res.rows.item(i).placas+'"';
-                                var registro = ('{"id":'+id+',"id_embarque":'+id_embarque+',"fecha":'+fecha+',"firma":'+firma+',"entrada":'+entrada+',"usuario_id":'+usuario_id+',"ubicaciones_id":'+ubicaciones_id+',"placas":'+placas+'}');
-                                var registro = angular.fromJson(registro);
-
-                                $scope.sincro.push(registro);
-                                registro="";
-
-
-                        
-                      };
-
-            } else {
+                for ( i=0; i < res.rows.length; i++) 
+                {
+                  var id='"'+res.rows.item(i).id+'"';
+                  var id_embarque='"'+res.rows.item(i).id_embarque+'"';
+                  var fecha='"'+res.rows.item(i).fecha+'"';
+                  var firma='"'+res.rows.item(i).firma+'"';
+                  var entrada='"'+res.rows.item(i).entrada+'"';
+                  var usuario_id='"'+res.rows.item(i).usuario_id+'"';
+                  var ubicaciones_id='"'+res.rows.item(i).ubicaciones_id+'"';
+                  var placas='"'+res.rows.item(i).placas+'"';
+                  var registro = ('{"id":'+id+',"id_embarque":'+id_embarque+',"fecha":'+fecha+',"firma":'+firma+',"entrada":'+entrada+',"usuario_id":'+usuario_id+',"ubicaciones_id":'+ubicaciones_id+',"placas":'+placas+'}');
+                  var registro = angular.fromJson(registro);
+                  $scope.sincro.push(registro);
+                  registro="";
+                };
+            }else
+              {
                 alert("No results found");
-            }
-        }, function (err) {
+              }
+        },function (err) 
+          {
             alert('dd'+err);
-        });
-    }
- 
+          });
+     }
 
+     $scope.delete = function()
+     {
+      var query = "DELETE FROM rastreo";
+      $cordovaSQLite.execute(db, query).then(function(res)
+       {
+        alert('eliminado');
+       },function(err)
+        {
+          alert(err.message);
+          console.log(err.message);
+        });
+   }
 })

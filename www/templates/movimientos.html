@@ -1,5 +1,5 @@
 <ion-view view-title="Movimientos">
-<ion-content class="padding">
+<ion-content class="">
 <div class="row">
   <div class="col col-70">
     <div class="embarques">
@@ -9,11 +9,11 @@
             <p>{{movimiento.Fecha}}</p>
             </div>
       </div>   
-    
+       
     </div>
   </div>
    <div class="col col-40">
-    <div class="card embarques2">
+    <div class="card embarques2" style=" height: {{ scren }}px;">
       <h6>DETALLE DE TRANSACCION</h6>
       <hr>
       <div>
@@ -77,7 +77,7 @@
 
   <ion-footer-bar align-title="left" class=" footer2 ">
     <div class="buttons col col-30">
-      <h6 class="titfoo light">  2 Embarques registrados</h6>
+      <h6 class="titfoo light">  {{ conembarque }} Embarques registrados</h6>
     </div>
     <div class="buttons col col-30">
     <p class="light">Entrada manual </p>

@@ -6567,25 +6567,22 @@ angular.module('ngCordova.plugins.splashscreen', [])
 
   }]);
 
-// install   :      cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage.git
-// link      :      https://github.com/litehelpers/Cordova-sqlite-storage
+// install   :      cordova plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
+// link      :      https://github.com/brodysoft/Cordova-SQLitePlugin/blob/master/README.md
 
 angular.module('ngCordova.plugins.sqlite', [])
 
   .factory('$cordovaSQLite', ['$q', '$window', function ($q, $window) {
 
     return {
-      openDB: function (options, background) {
+      openDB: function (dbName, background) {
 
-        if (angular.isObject(options) && !angular.isString(options)) {
-          if (typeof background !== 'undefined') {
-            options.bgType = background;
-          }
-          return $window.sqlitePlugin.openDatabase(options);
+        if (typeof background === 'undefined') {
+          background = 0;
         }
 
         return $window.sqlitePlugin.openDatabase({
-          name: options,
+          name: dbName,
           bgType: background
         });
       },

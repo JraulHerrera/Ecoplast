@@ -11,7 +11,7 @@ angular.module('starter.services', [])
             var promise = deferred.promise;
             var nombre="";
             var pass="";
-           $http.get("http://itsolution.mx/ecoplast/public/RESTService/login/"+name+"/"+pw)
+           $http.get("http://itsolution.mx/RESTService/login/"+name+"/"+pw)
             .success(function(data){
                      var length = data.length;
                       for ( i=0; i < length; i++) {  
