@@ -7,72 +7,39 @@ var bandera= 0;
 angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
   
 //controlador de logi
-
-
-.controller('LoginCtrl', function($ionicPlatform, $scope, LoginService, $ionicPopup,  $cordovaNetwork, $state, $rootScope) {
-    $scope.data = {};
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {     
     $scope.login = function() {
+    
+      // console.log($scope.data.username);
       nombredeusuario=$scope.data.username;
         LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-             $state.go('tab.dash',{name: $scope.data.username});
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
+           
+        }).success(function(data) {
+           $state.go('tab.dash',{name: $scope.data.username});
+         
+        }).error(function(data){
+
+                var alertPopup = $ionicPopup.alert({
                 title: 'Error de ingreso!',
                 template: 'porfavor verifique sus datos!',
                 buttons:[{
                 type:"button-balanced",
                 text:"<b>OK</b>",
                 }]
-            });
+              });
+
+
         });
-        
     }
 })
+
 //scanner
  .controller('DashCtrl', function($scope,$state, $cordovaBarcodeScanner, $ionicPopup,$http ,$ionicModal){
         $scope.scren=screen.height;
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $scope.data = {};
         $scope.recepcion="1";
         $scope.matriculaVehiculo="matricula";
         $scope.matriculaVehiculos="vehiculos";
-
         $scope.autorizadopor;      
 
       $scope.nombredeusuario=$state.params.name;
@@ -87,9 +54,6 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
         $scope.actualizasalida=function(){
           entradaSalida="0";
         }
-
-
-
 
         $scope.movimientosescaneado={};
         $scope.movimientos=[];
@@ -165,6 +129,7 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
           }
             else
             {
+              alert("Ha ocurrido un error:"+ error);
               $scope.movimientosescaneado={};
               registro="";
             }
@@ -177,14 +142,10 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
     }
 //mensaje de movimientos
 var showingText="Movimiento registrado con éxito";
-
-
 //
 
     var canvas = document.getElementById('signatureCanvas');
     var signaturePad = new SignaturePad(canvas);
- 
-   
 
 //firma
     var canvas = null,
@@ -257,47 +218,81 @@ var showingText="Movimiento registrado con éxito";
    //registro
     var usr=$state.params.name;
 
-   $scope.registrar = function(){
+    $scope.registrar = function(){
     var usertemp;
     var completado=0;
     var conexion=1;
-        $http.post("http://itsolution.mx/RESTService/login/"+usr)
-        .success(function(data){
+         var params ={
+                  name: usr
+            };
 
-                     var length = data.length;
-                 
-                     var json=data;
-                      for ( i=0; i < json.length; i++) {  
-                        usertemp = json[i].perfil;    
-                                       
-                      };
-
-
+            var usuario;            
+             $http({
+              url:'http://itsolution.mx/login/obtener',
+              method:'POST',
+              data:params
+            })
+        .success(function(data){ 
+          var usrActual=data[0].usuario;
           var ccontrol="";
           var cmaterial="";
           var length = $scope.movimientos.length; 
           var c=0;
-                      
-                      for ( i=0; i < length; i++){                       
-                          $http.post('http://itsolution.mx/RESTService/movimientos/',{
-                          params: {
-                             "codigoControl": $scope.movimientos[i].CodigoControl,
-                             "claveMaterial": $scope.movimientos[i].ClaveMaterial,
-                             "nombreMaterial": $scope.movimientos[i].NombreMaterial,
-                             "peso": $scope.movimientos[i].Peso,
-                             "usuario": $scope.movimientos[i].usuario,
-                             "nombreUsuario": usertemp,
-                             "fecha": $scope.movimientos[i].Fecha,
-                             "idUbicacion": $scope.movimientos[i].IdUbicacion,
-                             "nombreUbicacion":$scope.movimientos[i].NombreUbicacion,
-                             "entradaSalida":entradaSalida,
-                             "matricula":$scope.data.matriculaVehiculo,
-                             "autorizadopor":$scope.data.autorizadopor,
-                             "firma":'hola',
-                             "usuarioactual":$state.params.name
-                          }
-                        }).success(function(data,status){
-                          console.log("valor de data: "+data);
+
+ var d = new Date();
+        var anno=d.getFullYear();
+        
+
+        if((d.getMonth()+1)<10)
+        {
+          mes='0'+(d.getMonth()+1);
+        }else{mes=(d.getMonth()+1);}
+
+        if(d.getDate()<10){
+          dia='0'+d.getDate();
+        }else{dia=d.getDate();}
+
+        if(d.getHours()<10)
+        {
+          hora='0'+d.getHours();
+        }else{hora=d.getHours();}
+
+        if(d.getMinutes()<10)
+        {
+          minutos='0'+d.getMinutes();
+        }else{minutos=d.getMinutes();}
+
+        if(d.getSeconds()<10){
+          segundos='0'+(d.getSeconds());
+        }else{
+          segundos=d.getSeconds();
+        }
+        
+        var fecha=(anno+'/'+mes+'/'+dia+' '+hora+':'+minutos+':'+segundos);
+                      for ( i=0; i < length; i++){       
+                          var params ={
+                                    codigoControl: $scope.movimientos[i].CodigoControl,
+                                    claveMaterial: $scope.movimientos[i].ClaveMaterial,
+                                    nombreMaterial: $scope.movimientos[i].NombreMaterial,
+                                    peso: $scope.movimientos[i].Peso,
+                                    usuario: $scope.movimientos[i].usuario,
+                                    nombreUsuario: usertemp,
+                                    fecha: fecha,
+                                    idUbicacion: $scope.movimientos[i].IdUbicacion,
+                                    nombreUbicacion:$scope.movimientos[i].NombreUbicacion,
+                                    entradaSalida:entradaSalida,
+                                    matricula:$scope.data.matriculaVehiculo,
+                                    autorizadopo:$scope.data.autorizadopor,
+                                    firma:sigImg,
+                                    usuarioactual:usrActual
+                                  };
+                                  
+                                  $http({
+                                    url:'http://itsolution.mx/movimientos',
+                                    method:'POST',
+                                    data:params
+                                  })
+                                  .success(function(data,status){
                                     c++;
                                       if(c==length && data=="1001")
                                       {
@@ -321,6 +316,8 @@ var showingText="Movimiento registrado con éxito";
                                         $scope.movimientos=[];
                                         $scope.data.matriculaVehiculo="";
                                         $scope.data.autorizadopor="";
+                                        $scope.conembarque=0;
+                                        bandera=0;
                                         entradaSalida="1";
                                       }
 
@@ -346,6 +343,8 @@ var showingText="Movimiento registrado con éxito";
                                             $scope.movimientos=[];
                                             $scope.data.matriculaVehiculo="";
                                             $scope.data.autorizadopor="";
+                                            $scope.conembarque=0;
+                                            bandera=0;
                                             entradaSalida="1";
                                       }
                           }).error(function(data, status) {
@@ -353,23 +352,51 @@ var showingText="Movimiento registrado con éxito";
                              })
 
 
-                          .error(function(data){                          
-                                var codigoControl='"'+$scope.movimientos[i-1].CodigoControl+'"';
-                                var clvMaterial='"'+$scope.movimientos[i-1].ClaveMaterial+'"';
-                                var nombreMaterial='"'+$scope.movimientos[i-1].NombreMaterial+'"';
-                                var peso='"'+$scope.movimientos[i-1]+'"';
-                                var usuario='"'+$scope.movimientos[i-1].usuario+'"';
-                                var nombreUsuario='"'+$scope.movimientos[i-1].nombreUsuario+'"';
-                                var fecha='"'+$scope.movimientos[i-1].Fecha+'"';
-                                var idUbicacion='"'+$scope.movimientos[i-1].IdUbicacion+'"';
-                                var nombreUbicacion='"'+$scope.movimientos[i-1].NombreUbicacion+'"';
-                                var registro = ('{"CodigoControl":'+codigoControl+',"ClaveMaterial":'+clvMaterial+',"NombreMaterial":'+nombreMaterial+',"Peso":'+peso+',"Usuario":'+usuario+',"NombreUsuario":'+nombreUsuario+',"Fecha":'+fecha+',"IdUbicacion":'+idUbicacion+',"NombreUbicacion":'+nombreUbicacion+'}');
-                                var registro = angular.fromJson(registro);
+                          .error(function(data){ 
+                            console.log("valor data: "+data);
+                              if(i==length && data.length>1)
+                              {
+                                var alert = $ionicPopup.alert({
+                                            title:'Movimiento no registrado<br><br><br>',
+                                            template:'',
+                                            buttons: [
+                                              {
+                                                text:"<b>Aceptar</b>",
+                                                type:"button-balanced",
+                                                onTap: function(e){
+                                                showingText=alert;
+                                                return "";   
+                                              }
+                                              },
+                                              ]
 
-                                $scope.sincronizacion.push(registro);
-                                $scope.movimientossincronizar={};
-                                registro="";
-                                completado=0;
+                                            })
+                                }
+                                    codigoControl= $scope.movimientos[i].CodigoControl
+                                    claveMaterial= $scope.movimientos[i].ClaveMaterial
+                                    nombreMaterial= $scope.movimientos[i].NombreMaterial
+                                    peso=$scope.movimientos[i].Peso
+                                    usuario= $scope.movimientos[i].usuario
+                                    nombreUsuario= usertemp
+                                    fecha= fecha
+                                    idUbicacion= $scope.movimientos[i].IdUbicacion
+                                    nombreUbicacion=$scope.movimientos[i].NombreUbicacion
+                                    entradaSalida=entradaSalida
+                                    matricula=$scope.data.matriculaVehiculo
+                                    autorizadopo=$scope.data.autorizadopor
+                                    firma=sigImg
+                                    usuarioactual=usrActual
+
+                                   
+                                  var query = "INSERT INTO rastreo (codigoControl, claveMaterial, nombreMaterial, peso, usuario, nombreUsuario, fecha, idUbicacion,nombreUbicacion,entradaSalida,matricula,autorizadopo,firma,usuarioactual) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                  
+                                  $cordovaSQLite.execute(db, query, [codigoControl, claveMaterial, nombreMaterial, peso, usuario, nombreUsuario, fecha, idUbicacion,nombreUbicacion,entradaSalida,matricula,autorizadopo,firma,usuarioactual]).then(function(res) 
+                                  {                                    
+                                    console.log("INSERT ID -> " + res.insertId);
+                                  },function (err) 
+                                    {
+                                      alert(err);
+                                    });
                           });
                       }
                 })//cierre success http usuario
@@ -420,14 +447,17 @@ var showingText="Movimiento registrado con éxito";
   })
 
 
-.controller('ChatsCtrl', function($scope, Chats ,$ionicPopup,$http) {
+.controller('ChatsCtrl', function($scope ,$ionicPopup,$http) {
+ 
  $scope.mostrarInformacionhistorial=function(historial){
+
+ if (historial.entrada==1) {historial.entrada='Entrada'}else{historial.entrada='Salida'}
       console.log(historial);
        var alert = $ionicPopup.alert({
           cssClass: 'yourclass',
               title:'<p align="left">Detalle de embarque</p><p align="center"><h5>'+historial.fecha+'</h5></p><h2>'+
                       historial.peso+'Kg.</h2><h5><p align="left">Material:</p></h5><p align="left">'+
-                      historial.NombreMaterial+'</p><h5><p align="left">'+historial.embarques_id+'</p></h5>',
+                      historial.material+'</p><h5><p align="left">'+historial.entrada+'</p></h5>',
               template:'',
               buttons: [
                 {
@@ -442,45 +472,143 @@ var showingText="Movimiento registrado con éxito";
             })
     }
 
-//HISTORIAL WS
-var historiales="";
-   $http.post("http://itsolution.mx/RESTService/historial")
-            .success(function(data){
-                $scope.historiales = data;
-            })
 
+    var historiales="";
+
+     var d = new Date();
+        var anno=d.getFullYear();
+        
+
+        if((d.getMonth()+1)<10)
+        {
+          mes='0'+(d.getMonth()+1);
+        }else{mes=(d.getMonth()+1);}
+
+        if(d.getDate()<10){
+          dia='0'+d.getDate();
+        }else{dia=d.getDate();}
+
+        if(d.getHours()<10)
+        {
+          hora='0'+d.getHours();
+        }else{hora=d.getHours();}
+
+        if(d.getMinutes()<10)
+        {
+          minutos='0'+d.getMinutes();
+        }else{minutos=d.getMinutes();}
+
+        if(d.getSeconds()<10){
+          segundos='0'+(d.getSeconds());
+        }else{
+          segundos=d.getSeconds();
+        }
+        
+        var fecha=(anno+'-'+mes+'-'+dia);
+        var params ={
+             fecha: fecha
+            };
+                
+             $http({
+              url:'http://itsolution.mx/historial/obtener',
+              method:'POST',
+              data:params
+            })
+             .success(function (data) {
+                 $scope.historiales = data;
+             });
 
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
-  
-})
 
+$scope.doRefresh= function(){
+
+
+     var d = new Date();
+        var anno=d.getFullYear();
+        
+
+        if((d.getMonth()+1)<10)
+        {
+          mes='0'+(d.getMonth()+1);
+        }else{mes=(d.getMonth()+1);}
+
+        if(d.getDate()<10){
+          dia='0'+d.getDate();
+        }else{dia=d.getDate();}
+
+        if(d.getHours()<10)
+        {
+          hora='0'+d.getHours();
+        }else{hora=d.getHours();}
+
+        if(d.getMinutes()<10)
+        {
+          minutos='0'+d.getMinutes();
+        }else{minutos=d.getMinutes();}
+
+        if(d.getSeconds()<10){
+          segundos='0'+(d.getSeconds());
+        }else{
+          segundos=d.getSeconds();
+        }
+        
+        var fecha=(anno+'-'+mes+'-'+dia);
+  var params ={
+             fecha: fecha
+            };
+                
+             $http({
+              url:'http://itsolution.mx/historial/obtener',
+              method:'POST',
+              data:params
+            })
+             .success(function (data) {
+                 $scope.historiales = data;
+             });
+
+}
+})
 
 
 //controlador para sincronizacion 
 .controller('AccountCtrl', function($scope, $cordovaSQLite, $http, $ionicLoading) {
+
+$scope.doRefreshsi= function(){
   $scope.sincro=[];
 
-  $scope.insert = function(id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) 
-  { 
-    alert(db);
-    firma=sigImg;
-    
-    var query = "INSERT INTO rastreo (id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) VALUES (?,?,?,?,?,?,?,?)";
-    
-    $cordovaSQLite.execute(db, query, [id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas]).then(function(res) 
-    {
-      alert("INSERT ID -> " + res.insertId);
-      console.log("INSERT ID -> " + res.insertId);
-    },function (err) 
-      {
-        alert('rer'+ err);
-      });
-  }
+    var query = "SELECT  * FROM rastreo";
+      $cordovaSQLite.execute(db, query).then(function(res)
+       {
+            if(res.rows.length > 0) {
+                for ( i=0; i < res.rows.length; i++) 
+                {
+                  var id='"'+res.rows.item(i).id+'"';
+                  var id_embarque='"'+res.rows.item(i).id_embarque+'"';
+                  var fecha='"'+res.rows.item(i).fecha+'"';
+                  var firma='"'+res.rows.item(i).firma+'"';
+                  var entrada='"'+res.rows.item(i).entrada+'"';
+                  var usuario_id='"'+res.rows.item(i).usuario_id+'"';
+                  var ubicaciones_id='"'+res.rows.item(i).ubicaciones_id+'"';
+                  var placas='"'+res.rows.item(i).placas+'"';
+                  var registro = ('{"id":'+id+',"id_embarque":'+id_embarque+',"fecha":'+fecha+',"firma":'+firma+',"entrada":'+entrada+',"usuario_id":'+usuario_id+',"ubicaciones_id":'+ubicaciones_id+',"placas":'+placas+'}');
+                  var registro = angular.fromJson(registro);
+                  $scope.sincro.push(registro);
+                  registro="";
+                };
+            }else
+              {
+                alert("No results found");
+              }
+        },function (err) 
+          {
+            alert('dd'+err);
+          });
+     
+  
+  
 
-    $scope.select = function()
-     {
       var query = "SELECT  * FROM rastreo";
       $cordovaSQLite.execute(db, query).then(function(res)
        {
@@ -508,18 +636,28 @@ var historiales="";
           {
             alert('dd'+err);
           });
-     }
+     
+}
 
-     $scope.delete = function()
-     {
-      var query = "DELETE FROM rastreo";
-      $cordovaSQLite.execute(db, query).then(function(res)
-       {
-        alert('eliminado');
-       },function(err)
-        {
-          alert(err.message);
-          console.log(err.message);
-        });
-   }
+  $scope.insert = function(id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) 
+  { 
+    
+    firma=sigImg;
+    
+    var query = "INSERT INTO rastreo (id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas) VALUES (?,?,?,?,?,?,?,?)";
+    
+    $cordovaSQLite.execute(db, query, [id, id_embarque, fecha, firma, entrada, usuario_id, ubicaciones_id, placas]).then(function(res) 
+    {
+      alert("INSERT ID -> " + res.insertId);
+      console.log("INSERT ID -> " + res.insertId);
+    },function (err) 
+      {
+        alert('rer'+ err);
+      });
+  }
+
+  
+  
+
+    
 })

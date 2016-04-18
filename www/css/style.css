@@ -242,13 +242,13 @@ color: white;}
 .titulo
 {
 	width: 60%;
-	text-align: center;
+	
 }
 .salir
 {
 	width: 40%;
 	margin-top: 0%;
-	text-align: right;
+	
 }
 
 .cuadrofirma
@@ -277,7 +277,7 @@ input[type=radio].css-checkbox {
 							line-height:21px;
 							background-repeat:no-repeat;
 							background-position: 0 0;
-							font-size:9px;
+							font-size:7px;
 							vertical-align:middle;
 							cursor:pointer;
 
@@ -303,11 +303,12 @@ input[type=radio].css-checkbox {
 			font-size: 13px !important;
 		}
 		.titulo{
-			font-size: 10px;
+			font-size: 8px;
 		}
 		.salir
 		{
 			font-size: 10px;
+
 		}
 		.light
 		{
@@ -330,6 +331,10 @@ input[type=radio].css-checkbox {
 		{
 			height: 50px;
 		}
+		.bar .button, .bar button{    font-size: 9px;}
+		.titfoo{ font-size: 9px; }
+		.li{ font-size: 9px; }
+		.titledetalle{font-size: 9px;}
 }
 
 @media  (max-height: 509px) {
@@ -337,6 +342,7 @@ input[type=radio].css-checkbox {
     line-height: 30px;}
     .login{
 			margin-top: 10%;}
+			.titledetalle{font-size: 9px;}
 }
 
 @media (max-width: 245px) and (min-height: 330px) {
@@ -348,4 +354,5 @@ input[type=radio].css-checkbox {
     {
 		margin-top: 20%;
 	}
+	.titledetalle{font-size: 9px;}
 }

@@ -25,20 +25,26 @@
             </td>
           </tr>
           <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
             <td>
               <input type="radio" name="radiog_dark" id="radio5" ng-model="data.tipo" value="0" ng-value="0"class="css-checkbox"  ng-model="check.autorizadopor"  ng-click="actualizasalida()"/><label for="radio5" class="css-label radGroup2"> <span class="titledetalle">Recepción de material</span></label>
             </td>
+          </tr>
+            <tr>
+            <td>&nbsp;</td>
           </tr>
         </table>
         <br>
       </div>
         <label class="item item-input item-stacked-label margin">
               <span class="input-label">Matricula de vehiculo</span>
-              <input type="text" placeholder=""  ng-model="data.matriculaVehiculo">
+              <input type="text" placeholder=""  ng-model="data.matriculaVehiculo" required>
         </label>
         <label class="item item-input item-stacked-label">
               <span class="input-label">Autorizado por</span>
-              <input type="text" placeholder="" ng-model="data.autorizadopor">
+              <input type="text" placeholder="" ng-model="data.autorizadopor" required>
         </label>
 
       <button class="firma" ng-click='openSignatureModal()'>Firmar</button>
@@ -64,7 +70,7 @@
   </script>
 
           <div class="cuadrofirma">
-             <img src='{{signature}}'>
+             
           </div>
       <hr>
       <div class="text-right">
@@ -77,9 +83,9 @@
 
   <ion-footer-bar align-title="left" class=" footer2 ">
     <div class="buttons col col-30">
-      <h6 class="titfoo light">  {{ conembarque }} Embarques registrados</h6>
+      <p class="titfoo light">  {{ conembarque }} Embarques registrados</p>
     </div>
-    <div class="buttons col col-30">
+    <div class="buttons li col col-30">
     <p class="light">Entrada manual </p>
     </div>
     <div class="col col-30 text-right">

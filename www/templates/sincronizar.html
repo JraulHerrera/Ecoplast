@@ -1,6 +1,9 @@
 <ion-view view-title="Sincronizar">
   <ion-content>
-        
+         <ion-refresher
+    pulling-text="Suelte para actualizar..."
+    on-refresh="doRefreshsi()">
+  </ion-refresher>
 <div class="row sincronizar">
 	<h4 class="light pendientes">Embarques pendientes de sincronizar
 	</h4>
@@ -16,9 +19,5 @@
       </div>
 
 <br>
-<br>
-<button ng-click="insert(341,2, 3, 3, 4, 5, 6, 7) "> insertar </button>
-<button ng-click="select() "> select </button>
-<button ng-click="delete() "> eliminar </button>
   </ion-content>
 </ion-view>

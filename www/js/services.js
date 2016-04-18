@@ -1,71 +1,46 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['ionic','ngCordova'])
 //servicio para login, verifica que esten correctos lo datos y regresa al controlador
 
 .service('LoginService', function($q,$http) {
-            var nombre="";
-            var pass="";
-
     return {
-        loginUser: function(name, pw) {
+        loginUser: function(uuid, pass) {
             var deferred = $q.defer();
             var promise = deferred.promise;
-            var nombre="";
-            var pass="";
-           $http.get("http://itsolution.mx/RESTService/login/"+name+"/"+pw)
-            .success(function(data){
-                     var length = data.length;
-                      for ( i=0; i < length; i++) {  
-                        nombre = data[i].usuario;
-                        pass = data[i].password;
-                      };
-                   
-              if (name==nombre && pw==pass) {
-                  deferred.resolve('Welcome ' + name + '!');
-              } 
-
-              else {
-                  deferred.reject('Usuario incorrecto.');
-              }
-
+            var params ={
+                  name: uuid,
+                  pass: pass
+            };
+            var usuario;            
+             $http({
+              url:'http://itsolution.mx/login',
+              method:'POST',
+              data:params
             })
+            .success(function (data, status, headers, config) {
+                if(data.length > 0 ){
+                    if (uuid == data[0].usuario && pass== data[0].password) {
+                        deferred.resolve('Bienvenido ' + data[0].nombre_empleado);
+                    } else {
+                        deferred.reject('Acceso no valido');
+                    }
+                }
+                else{
+                    deferred.reject('Acceso no valido');
+                }                   
+            },
+            function(error){
+                   deferred.reject('Acceso no valido');
+            });
 
-             promise.success = function(fn) {
+            promise.success = function(fn) {
                 promise.then(fn);
                 return promise;
             }
-
-              promise.error = function(fn){
+            promise.error = function(fn) {
                 promise.then(null, fn);
                 return promise;
             }
-
-
             return promise;
-           
-           
-            
         }
     }
 })
-
-
-.factory('Chats', function() {
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-});
-

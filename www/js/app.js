@@ -6,6 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+var dbname='sincronizarEco.db'; 
 var db =null;
 var nombredeusuario=null;
 
@@ -23,10 +24,13 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-     
-        db = $cordovaSQLite.openDB({name: "sincronizar.db"});
+     if (window.cordova) {
+            db = window.sqlitePlugin.openDatabase({name: dbname, location: 'default'});
+        } else {
+            db = window.openDatabase(dbname, "1.0", "sincronizar", 900000);
+        }
       
-      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (id integer primary key, id_embarque integer, fecha text, firma text, entrada integer, usuario_id text, ubicaciones_id integer, placas text)");
+      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (codigoControl text, claveMaterial text, nombreMaterial text, peso text, usuario text, nombreUsuario text, fecha text, idUbicacion text, nombreUbicacion text, entradaSalida text, matricula text,  autorizadopo text, firma text, usuarioactual text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (id integer primary key, usuario text, nombre text, contrasena text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarque (id integer primary key, usuario_id integer, materiales integer, ubicaciones_id integer, peso integer, fechalocal text, fecha text, codigocontrol text)");
      });

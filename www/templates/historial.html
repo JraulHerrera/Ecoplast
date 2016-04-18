@@ -1,10 +1,17 @@
-<ion-view view-title="Chats">
+<ion-view view-title="Historial">
   <ion-content>
+    <ion-refresher
+    pulling-text="Suelte para actualizar..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
       <div ng-repeat="historial in historiales" class="card etiquetas" ng-click="mostrarInformacionhistorial(historial)">      
                   <div class="col-md-4">
                     <h6>{{historial.peso}} Kg | {{historial.material}}</h6>
-                    <p>{{historial.fecha | date:'yyyy-MM-dd'}}</p>
+                    <p>{{historial.fecha }}</p>
                   </div>
       </div>        
   </ion-content>
 </ion-view>
+
+
+
