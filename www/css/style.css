@@ -113,12 +113,18 @@ background-color: #323232;
 	margin-bottom: 2px;
 	margin-top: 2px;
 }
+
+
 .footer2{
 
 	width: 60%;
 	background-color: #444;
 	color:white;
 
+}
+.footernegro{
+	background-color: #444;
+	color:white;
 }
 .margin{
 	margin-top: 3px;
@@ -165,6 +171,22 @@ background-color: #323232;
 	padding: 6px;
     position: relative;
 	width: 80%;
+}
+.trans{
+
+    color: white;
+	bottom: 0;
+    border:0px;
+    height: 45px;
+	font-size:12px;
+    background-color:  #009900;
+    border: 1px solid gray;
+    border-radius:0.4em;
+    margin-left: 12px; 
+	padding: 6px;
+    position: relative;
+	width: 50%;
+
 }
 
 .tembarques
@@ -253,9 +275,7 @@ color: white;}
 
 .cuadrofirma
 {
-	height: 70px;
-	max-width: auto;
-	
+	border: none;	
 	display: block;
 }
 

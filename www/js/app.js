@@ -9,10 +9,10 @@
 var dbname='sincronizarEco.db'; 
 var db =null;
 var nombredeusuario=null;
-
+ var usrActual;
 angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform, $cordovaSQLite, $ionicPopup) {
+.run(function($ionicPlatform, $cordovaSQLite, $ionicPopup, $http) {
   $ionicPlatform.ready(function() {     
             
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -29,10 +29,35 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
         } else {
             db = window.openDatabase(dbname, "1.0", "sincronizar", 900000);
         }
-      
+      $cordovaSQLite.execute(db,"DROP TABLE user");
+      $cordovaSQLite.execute(db,"DROP TABLE rastreo");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (codigoControl text, claveMaterial text, nombreMaterial text, peso text, usuario text, nombreUsuario text, fecha text, idUbicacion text, nombreUbicacion text, entradaSalida text, matricula text,  autorizadopo text, firma text, usuarioactual text)");
-      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (id integer primary key, usuario text, nombre text, contrasena text)");
+      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (usuario text primary key, contrasena text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarque (id integer primary key, usuario_id integer, materiales integer, ubicaciones_id integer, peso integer, fechalocal text, fecha text, codigocontrol text)");
+     
+       $http({
+              url:'http://itsolution.mx/login/getallusers',
+              method:'GET'
+            })
+        .success(function(data){ 
+          for (var i =0; i <data.length; i++) {  
+
+              var query = "INSERT INTO user (usuario,contrasena) VALUES (?,?)";
+            
+              $cordovaSQLite.execute(db, query, [data[i].usuario, data[i].password]).then(function(res) 
+              {
+                //alert("INSERT ID -> " + res.insertId);
+                //console.log("INSERT ID -> " + res.insertId);
+              },function (err) 
+                {
+                  //alert('rer'+ err);
+                });
+          }       
+            
+
+        });
+
+
      });
 })
 

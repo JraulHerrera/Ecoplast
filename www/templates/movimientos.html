@@ -65,14 +65,16 @@
             <button class="button "  ng-click="saveCanvas()">Aceptar</button>
           
           </div>
+
         </ion-content>
       </ion-modal-view>
   </script>
 
           <div class="cuadrofirma">
+             <img ng-src='{{signature}}' style="width: 200px; height: 150px;" />
              
           </div>
-      <hr>
+      <hr>         
       <div class="text-right">
         <button class="button transaccion" ng-click="registrar()">REGISTRAR TRANSACCION</button>
       </div>
@@ -81,23 +83,21 @@
 </div>
 </ion-content>
 
-  <ion-footer-bar align-title="left" class=" footer2 ">
-    <div class="buttons col col-30">
+  <ion-footer-bar align-title="left" class="footer2">
+    
+    <div class="col col-40 buttons ">
       <p class="titfoo light">  {{ conembarque }} Embarques registrados</p>
     </div>
-    <div class="buttons li col col-30">
+    <div class="col col-30 buttons li">
     <p class="light">Entrada manual </p>
     </div>
-    <div class="col col-30 text-right">
+    <div class="col-30 text-right">
       <button class="botonscaner" ng-click="leerCodigo()">Escanear Embarque</button>
     </div>
+    </div>
+    
+    
   </ion-footer-bar>
 
 </ion-view>
 
-
-  <canvas id='signatureCanvas' width='300' height='180' style='border: 1px solid black;'></canvas>
-          <div class='button-bar'>
-              <a class='button button-energized' ng-click='clearCanvas()'>Clear</a>
-              <a class='button button-balanced' ng-click='saveCanvas()'>Save</a>
-  </div>
