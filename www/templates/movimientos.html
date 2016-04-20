@@ -1,22 +1,19 @@
 <ion-view view-title="Movimientos">
-<ion-content class="">
-<div class="row">
-  <div class="col col-70">
+  <ion-content > 
+  <div class="row">
+  <div class="col col-60">
     <div class="embarques">
-     <div ng-repeat="movimiento in movimientos" class="card etiquetas"  ng-click="mostrarInformacion(movimiento)">      
+  <div ng-repeat="movimiento in movimientos" class="card etiquetas"  ng-click="mostrarInformacion(movimiento)">      
             <div class="col-md-4">
-            <h6>{{movimiento.Peso}} | {{movimiento.NombreMaterial}}</h6>
-            <p>{{movimiento.Fecha}}</p>
+              <h6>{{movimiento.Peso}} | {{movimiento.NombreMaterial}}</h6>
+              <p>{{movimiento.Fecha}}</p>
             </div>
-      </div>   
-       
+    </div>
     </div>
   </div>
-   <div class="col col-40">
-    <div class="card embarques2" style=" height: {{ scren }}px;">
-      <h6>DETALLE DE TRANSACCION</h6>
-      <hr>
-      <div>
+  <div class="card col col-40 positionrigh">
+    <div class=" embarques2" >
+      <h6>DETALLE DE TRANSACCION</h6><hr>
         <table>
            <tr>
             <td>
@@ -32,72 +29,63 @@
               <input type="radio" name="radiog_dark" id="radio5" ng-model="data.tipo" value="0" ng-value="0"class="css-checkbox"  ng-model="check.autorizadopor"  ng-click="actualizasalida()"/><label for="radio5" class="css-label radGroup2"> <span class="titledetalle">Recepción de material</span></label>
             </td>
           </tr>
-            <tr>
-            <td>&nbsp;</td>
-          </tr>
         </table>
         <br>
-      </div>
         <label class="item item-input item-stacked-label margin">
               <span class="input-label">Matricula de vehiculo</span>
-              <input type="text" placeholder=""  ng-model="data.matriculaVehiculo" required>
+              <input type="text" placeholder=""  ng-model="data.matriculaVehiculo" >
         </label>
         <label class="item item-input item-stacked-label">
               <span class="input-label">Autorizado por</span>
-              <input type="text" placeholder="" ng-model="data.autorizadopor" required>
+              <input type="text" placeholder="" ng-model="data.autorizadopor" >
         </label>
 
-      <button class="firma" ng-click='openSignatureModal()'>Firmar</button>
-      
-  <script id= "firma-modal.html"  type= "text/ng-template" > 
-      <ion-modal-view>
-        <ion-header-bar class="encabezado">
-          <h1 class="title encabezado">FIRMAR</h1>
-        </ion-header-bar>
-        <ion-content scroll="false">
-          <div class="card list">
-            
-            <canvas id="signature-canvas" class="padding-horizontal item" style="width: 100%; height:50%;"></canvas>
-          </div>
-          <div class="button-bar padding">
-            <button class="button" ng-click="clear(); signatureModal.hide()">Cancelar</button>
-            <button class="button " ng-click="clear()">Limpiar</button>
-            <button class="button "  ng-click="saveCanvas()">Aceptar</button>
-          
-          </div>
-
-        </ion-content>
-      </ion-modal-view>
-  </script>
-
-          <div class="cuadrofirma">
-             <img ng-src='{{signature}}' style="width: 200px; height: 150px;" />
-             
-          </div>
-      <hr>         
-      <div class="text-right">
-        <button class="button transaccion" ng-click="registrar()">REGISTRAR TRANSACCION</button>
-      </div>
+        <button class="firma" ng-click='openSignatureModal()'>Firmar</button>
+          <script id= "firma-modal.html"  type= "text/ng-template" > 
+              <ion-modal-view>
+                <ion-header-bar class="encabezado">
+                  <h1 class="title encabezado">FIRMAR</h1>
+                </ion-header-bar>
+                <ion-content scroll="false">
+                  <div class="card list">
+                    
+                    <canvas id="signature-canvas" class="padding-horizontal item" style="width: 100%; height:50%;"></canvas>
+                  </div>
+                  <div class="button-bar padding">
+                    <button class="button" ng-click="clear(); signatureModal.hide()">Cancelar</button>
+                    <button class="button " ng-click="clear()">Limpiar</button>
+                    <button class="button "  ng-click="saveCanvas()">Aceptar</button>
+                  </div>
+                </ion-content>
+              </ion-modal-view>
+          </script>
+        <div class=" cuadrofirma">
+          <img ng-src='{{signature}}' style="width: 208px; height: 120px;" />
+        </div>
+        <hr>         
+        <div class="text-right">
+          <button class="button transaccion" ng-click="registrar()">REGISTRAR TRANSACCION</button>
+        </div>
     </div>
-  </div>
-</div>
-</ion-content>
-
-  <ion-footer-bar align-title="left" class="footer2">
-    
+    </div>
+   </div> 
+  <br>
+  <br>
+  <br>
+  </ion-content>
+  <br>
+  <br>
+  <br>
+   <footer align-title="left" class="row footer2">
     <div class="col col-40 buttons ">
-      <p class="titfoo light">  {{ conembarque }} Embarques registrados</p>
+        <p class="titfoo light">  {{ conembarque }} Embarques registrados</p>
     </div>
     <div class="col col-30 buttons li">
-    <p class="light">Entrada manual </p>
+        <p class="light">Entrada manual </p>
     </div>
     <div class="col-30 text-right">
-      <button class="botonscaner" ng-click="leerCodigo()">Escanear Embarque</button>
-    </div>
-    </div>
-    
-    
-  </ion-footer-bar>
-
+        <button class="botonscaner" ng-click="leerCodigo()">Escanear Embarque</button>
+    </div>  
+  </footer>
 </ion-view>
 

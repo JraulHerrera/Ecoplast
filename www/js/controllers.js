@@ -38,6 +38,11 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
  .controller('DashCtrl', function($scope,$state, $cordovaBarcodeScanner, $cordovaSQLite, $ionicPopup,$http ,$ionicModal){
 
 
+
+
+
+
+
 /////////
         $scope.scren=screen.height;
         $scope.data = {};
@@ -645,11 +650,11 @@ $scope.sincro=[];
                 };
             }else
               {
-                alert("No results found");
+                
               }
         },function (err) 
           {
-            alert('dd'+err);
+            
           });
 
 

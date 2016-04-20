@@ -29,8 +29,8 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
         } else {
             db = window.openDatabase(dbname, "1.0", "sincronizar", 900000);
         }
-      $cordovaSQLite.execute(db,"DROP TABLE user");
-      $cordovaSQLite.execute(db,"DROP TABLE rastreo");
+     // $cordovaSQLite.execute(db,"DROP TABLE user");
+      //$cordovaSQLite.execute(db,"DROP TABLE rastreo");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS rastreo (codigoControl text, claveMaterial text, nombreMaterial text, peso text, usuario text, nombreUsuario text, fecha text, idUbicacion text, nombreUbicacion text, entradaSalida text, matricula text,  autorizadopo text, firma text, usuarioactual text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS user (usuario text primary key, contrasena text)");
       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS embarque (id integer primary key, usuario_id integer, materiales integer, ubicaciones_id integer, peso integer, fechalocal text, fecha text, codigocontrol text)");
