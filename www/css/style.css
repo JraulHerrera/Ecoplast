@@ -101,7 +101,9 @@ margin-top: 2px;}
 .etiquetas
 {
 	width: 230px;
-	display: inline-block;
+	height: 54px;
+    display: inline-block;
+    padding: 13px 21px;display: inline-block;
 	padding: 2px 20px;
 	margin-right: 2%;
 	margin-bottom: 2px;
@@ -279,6 +281,7 @@ color: white;}
 {
 	width: 40%;
 	margin-top: 0%;
+	text-align: right;
 	
 }
 
@@ -341,7 +344,40 @@ input[type=radio].css-checkbox {
 		.salir
 		{
 			font-size: 10px;
+			text-align: right;
 
+		}
+		.bar.bar-balanced
+		{
+			height: 49px !important;
+		}
+		.btnsalir{
+			width: 33px;
+    		margin-left: -4px;
+		}
+		.botonsincronizar{
+			font-size: 10px;
+			width: 91px;
+			margin-left: 0px;
+		}
+		.pendientes{
+			    margin-right: 2%;
+		}
+		.transaccion{
+			font-size: 9px;
+		}
+		.cuadrofirma{
+			width: 120px;
+   			height: 100px;
+    		margin-left: 0px;
+    		margin-top: 2px;
+		}
+		.imgsignature{
+			width: 120px !important;
+			height: 100px !important;
+		}
+		.input-label{
+			font-size: 10px;
 		}
 		.light
 		{

@@ -8,10 +8,12 @@
 	<h4 class="light pendientes">Embarques pendientes de sincronizar
 	</h4>
 	<div class="col col-30 text-right">
-  <button class="botonsincronizar">Sincronizar todo</button></div>
+
+  <button class="botonsincronizar" ng-click="sincronizar()">Sincronizar todo</button></div>
 	
 </div>
-  <div ng-repeat="otro in sincro" class="card etiquetas">      
+<div ng-repeat="otro in sincro" class="card etiquetas" ng-click="mostrarInformacionsincronizar(otro)">
+      
                   <div class="col-md-4">
                     <h6>{{otro.peso}} | {{otro.nombreMaterial}}</h6>
                     <p>{{otro.fecha}}</p>

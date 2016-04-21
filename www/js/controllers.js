@@ -2,6 +2,7 @@ var entradaSalida="1";
 var signature=null;
 var sigImg=null;
 var registroCompletado=0;
+var sincronizacioncompleta=0;
 var bandera= 0;
  var length=0;
 
@@ -36,10 +37,6 @@ angular.module('starter.controllers', ['ionic','ngCordova',"starter.services"])
 
 //scanner
  .controller('DashCtrl', function($scope,$state, $cordovaBarcodeScanner, $cordovaSQLite, $ionicPopup,$http ,$ionicModal){
-
-
-
-
 
 
 
@@ -191,8 +188,8 @@ var showingText="Movimiento registrado con éxito";
 
         $scope.resizeCanvas = function () {
               canvas.width = canvas.offsetWidth * ratio;
-          console.log(canvas.width);
-          
+
+          canvas.height = 148;
           canvas.getContext('2d').scale(ratio, ratio);          
         };
 
@@ -203,6 +200,7 @@ var showingText="Movimiento registrado con éxito";
         };
         $scope.saveCanvas = function() {
             $scope.signaturePadModel = {};
+            sigImg=$scope.signature;
           $scope.signatureModal.hide();
              };
 //convertir la imagen 
@@ -301,6 +299,7 @@ var showingText="Movimiento registrado con éxito";
                                             $scope.data.autorizadopor="";
                                             $scope.conembarque=0;
                                             bandera=0;
+                                            $scope.signature=null;
                                             entradaSalida="1";
                                           }
 
@@ -343,10 +342,23 @@ var showingText="Movimiento registrado con éxito";
                                       
                                       },function (err) 
                                       {
-                                        console.log(err);
+                                           var alert = $ionicPopup.alert({
+                                                title:'Error',
+                                                template:err.message,
+                                                buttons: [
+                                                  {
+                                                    text:"<b>Aceptar</b>",
+                                                    type:"button-balanced",
+                                                    onTap: function(e){
+                                                    showingText=alert;
+                                                    return "";   
+                                                  }
+                                                  },
+                                                  ]
+                                                })
                                       });    
                                 //termina sincronizar
-                                console.log("valor data: "+data);
+                              //  console.log("valor data: "+data);
                                   if(i==length && data.length>1)
                                   {
                                     var alert = $ionicPopup.alert({
@@ -368,11 +380,11 @@ var showingText="Movimiento registrado con éxito";
                           }
         })//cierre success http usuario
         .error(function (data, status) { //error usuario
-               console.log("usuario"+usr);
+               //console.log("usuario"+usr);
                     
               var length2 = $scope.movimientos.length;
-              console.log($scope.data.autorizadopor);
-          console.log("registros "+length2);
+              //console.log($scope.data.autorizadopor);
+          //console.log("registros "+length2);
                
               var d = new Date();
             var anno=d.getFullYear();
@@ -408,10 +420,11 @@ var showingText="Movimiento registrado con éxito";
                   });                     
             }
    $scope.movimientos=[];
+   $scope.conembarque=0;
           //cierre de consulta sincronizar
 
           var alert = $ionicPopup.alert({
-            title:'Movimiento incompleto, datos pendientes de sincronizaR<br><br><br>',
+            title:'Movimiento incompleto, datos pendientes de sincronizar<br><br><br>',
             template:'',
             buttons: [
             {
@@ -431,7 +444,7 @@ var showingText="Movimiento registrado con éxito";
 
   //MOVIMIENTOS DETALLE
     $scope.mostrarInformacion=function(movimiento){
-      console.log(movimiento);
+      //console.log(movimiento);
        var alert = $ionicPopup.alert({
          cssClass: 'yourclass',
               title:'<p align="left">Detalle de embarque</p><p align="center"><h5>'+movimiento.Fecha+'</h5></p><h2>'+
@@ -459,7 +472,7 @@ var showingText="Movimiento registrado con éxito";
  $scope.mostrarInformacionhistorial=function(historial){
 
  if (historial.entrada==1) {historial.entrada='Entrada'}else{historial.entrada='Salida'}
-      console.log(historial);
+      //console.log(historial);
        var alert = $ionicPopup.alert({
           cssClass: 'yourclass',
               title:'<p align="left">Detalle de embarque</p><p align="center"><h5>'+historial.fecha+'</h5></p><h2>'+
@@ -580,7 +593,28 @@ $scope.doRefresh= function(){
 
 
 //controlador para sincronizacion 
-.controller('AccountCtrl', function($scope, $cordovaSQLite, $http, $ionicLoading) {
+.controller('AccountCtrl', function($scope, $cordovaSQLite, $http, $ionicPopup) {
+  $scope.mostrarInformacionsincronizar=function(sincronizar){
+      //console.log(sincronizar);
+       var alert = $ionicPopup.alert({
+         cssClass: 'yourclass',
+            title:'<p align="left">Detalle de embarque</p><p align="center"><h5>'+sincronizar.fecha+'</h5></p><h2>'+
+                      sincronizar.peso+'Kg.</h2><h5><p align="left">Material:</p></h5><p align="left">'+
+                      sincronizar.nombreMaterial+'</p><h5><p align="left">'+sincronizar.codigoControl+'</p></h5>',
+              template:'',
+              buttons: [
+                {
+                  text:'Aceptar',
+                  type:"button-balanced",
+                  onTap: function(e){
+                  alert="";
+
+                  return true;   
+                }},]
+
+            })
+    }
+
 
 $scope.doRefreshsi= function(){
   $scope.sincro=[];
@@ -604,7 +638,6 @@ $scope.doRefreshsi= function(){
                   var autorizadopo='"'+res.rows.item(i).autorizadopo+'"';
                   var firma='"'+res.rows.item(i).firma+'"';
                   var usuarioactual='"'+res.rows.item(i).usuarioactual+'"';
-                    console.log(nombreMaterial);
                   var registro = ('{"codigoControl":'+codigoControl+',"claveMaterial":'+claveMaterial+',"nombreMaterial":'+nombreMaterial+',"peso":'+peso+',"fecha":'+fecha+',"idUbicacion":'+idUbicacion+',"nombreUbicacion":'+nombreUbicacion+',"entradaSalida":'+entradaSalida+',"matricula":'+matricula+',"autorizadopo":'+autorizadopo+',"firma":'+firma+',"usuarioactual":'+usuarioactual+'}');
                   var registro = angular.fromJson(registro);
                   $scope.sincro.push(registro);
@@ -612,19 +645,24 @@ $scope.doRefreshsi= function(){
                 };
             }else
               {
-                alert("No results found");
+                var alertPopup = $ionicPopup.alert({
+                title: 'Sincronizacion',
+                template: 'No hay nada que sincronizar',
+                buttons:[{
+                    type:"button-balanced",
+                    text:"<b>OK</b>",
+                  }]
+                });
               }
         },function (err) 
           {
-            alert('dd'+err);
+            //alert('dd'+err);
           });
      
 }
 
 $scope.sincro=[];
-
     var query = "SELECT  * FROM rastreo";
-
       $cordovaSQLite.execute(db, query).then(function(res)
        {
             if(res.rows.length > 0) {
@@ -642,7 +680,6 @@ $scope.sincro=[];
                   var autorizadopo='"'+res.rows.item(i).autorizadopo+'"';
                   var firma='"'+res.rows.item(i).firma+'"';
                   var usuarioactual='"'+res.rows.item(i).usuarioactual+'"';
-                    console.log(nombreMaterial);
                   var registro = ('{"codigoControl":'+codigoControl+',"claveMaterial":'+claveMaterial+',"nombreMaterial":'+nombreMaterial+',"peso":'+peso+',"fecha":'+fecha+',"idUbicacion":'+idUbicacion+',"nombreUbicacion":'+nombreUbicacion+',"entradaSalida":'+entradaSalida+',"matricula":'+matricula+',"autorizadopo":'+autorizadopo+',"firma":'+firma+',"usuarioactual":'+usuarioactual+'}');
                   var registro = angular.fromJson(registro);
                   $scope.sincro.push(registro);
@@ -650,6 +687,14 @@ $scope.sincro=[];
                 };
             }else
               {
+                var alertPopup = $ionicPopup.alert({
+                title: 'Sincronizacion',
+                template: 'No hay nada que sincronizar',
+                buttons:[{
+                    type:"button-balanced",
+                    text:"<b>OK</b>",
+                  }]
+                });
                 
               }
         },function (err) 
@@ -657,7 +702,110 @@ $scope.sincro=[];
             
           });
 
+/*****************sincronizar*************/
+     $scope.sincronizar = function(){
 
+      var query = "SELECT  * FROM rastreo";
+
+      $cordovaSQLite.execute(db, query).then(function(res)
+       {
+            if(res.rows.length > 0) 
+            {
+                for ( i=0; i < res.rows.length; i++) 
+                {
+                  
+                  var codigoControl=res.rows.item(i).codigoControl;
+                  var claveMaterial=res.rows.item(i).claveMaterial;
+                  var nombreMaterial=res.rows.item(i).nombreMaterial;
+                  var peso=res.rows.item(i).peso;
+                  var fecha=res.rows.item(i).fecha;
+                  var idUbicacion=res.rows.item(i).idUbicacion;
+                  var nombreUbicacion=res.rows.item(i).nombreUbicacion;
+                  var entradaSalida=res.rows.item(i).entradaSalida;
+                  var matricula=res.rows.item(i).matricula;
+                  var autorizadopo=res.rows.item(i).autorizadopo;
+                  var firma=res.rows.item(i).firma;
+                  var usuarioactual=res.rows.item(i).usuarioactual;
+                  var params ={                                      
+                        codigoControl:res.rows.item(i).codigoControl,
+                        claveMaterial:res.rows.item(i).claveMaterial,
+                        nombreMaterial:res.rows.item(i).nombreMaterial,
+                        peso:res.rows.item(i).peso,
+                        fecha:res.rows.item(i).fecha,
+                        idUbicacion:res.rows.item(i).idUbicacion,
+                        nombreUbicacion:res.rows.item(i).nombreUbicacion,
+                        entradaSalida:res.rows.item(i).entradaSalida,
+                        matricula:res.rows.item(i).matricula,
+                        autorizadopor:res.rows.item(i).autorizadopo,
+                        firma:res.rows.item(i).firma,
+                        usuarioactual:res.rows.item(i).usuarioactual
+                  };
+                   $http({
+                        url:'http://itsolution.mx/sincronizar',
+                        method:'POST',
+                        data:params
+                        })
+                        .success(function(data, status, headers, config){  
+                          var cControl=config.data.codigoControl;
+                          var cclaveMaterial=config.data.claveMaterial;
+                          var cnombreMaterial=config.data.nombreMaterial;
+                          var cpeso=config.data.peso;
+                          var cfecha=config.data.fecha;
+                          var cidUbicacion=config.data.idUbicacion;
+                          var query = "DELETE FROM rastreo WHERE codigoControl=? and claveMaterial=? and nombreMaterial=? and peso=? and fecha=? and idUbicacion=?";
+                              $cordovaSQLite.execute(db,query,[cControl,cclaveMaterial,cnombreMaterial,cpeso,cfecha,cidUbicacion]).then(function(res)
+                              {
+                                var alertPopup = $ionicPopup.alert({
+                                title: 'Sincronizacion',
+                                template: 'Datos  sincronizados exitosamente',
+                                buttons:[{
+                                    type:"button-balanced",
+                                    text:"<b>OK</b>",
+                                  }]
+                                 });
+                                $scope.sincro=0;
+                              },function(err)
+                              {
+                                var alertPopup = $ionicPopup.alert({
+                                title: 'Sincronizacion',
+                                template: 'Error de sincronizacion',
+                                buttons:[{
+                                    type:"button-balanced",
+                                    text:"<b>OK</b>",
+                                  }]
+                            });
+                              });
+                        
+                        }).error(function(data,status){
+                           var alertPopup = $ionicPopup.alert({
+                                title: 'Sincronizacion',
+                                template: 'Datos no sincronizados',
+                                buttons:[{
+                                    type:"button-balanced",
+                                    text:"<b>OK</b>",
+                                  }]
+                            });
+                           
+                        })
+                
+                } //fin for
+              
+            }
+              else
+              {
+               //rows no encontrado 
+              }
+        },function (err) 
+          {
+            //error de la consulta execute
+          });
+
+
+
+     }
+
+
+    /******************************************/
 
     
 })
